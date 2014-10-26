@@ -1,0 +1,206 @@
+<?php
+/**
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Markus Fischer <markus@fischer.name>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+namespace Mfn\PHP\Analyzer\Analyzers\Tools;
+
+use Mfn\PHP\Analyzer\File;
+use PhpParser\Node;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\Class_ as PhpParserClass;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Use_;
+
+/**
+ * Represent a class
+ *
+ * Use getInterfaces() to get the parent class or getInterfaces() to access the
+ * interfaces.
+ */
+class ParsedClass extends ParsedObject implements Class_ {
+
+  /** @var PhpParserClass */
+  protected $node = NULL;
+  /**
+   * Full qualified parent name
+   * @var NULL|string
+   */
+  private $fqParent = NULL;
+  /** @var NULL|ParsedClass */
+  private $parent = NULL;
+  /**
+   * The key is the fqn
+   * @var ParsedInterface[]
+   */
+  private $implements = [];
+  /** @var ParsedMethod[] */
+  private $methods = NULL;
+
+  /**
+   * @param string $namespace
+   * @param Use_[] $uses
+   * @param PhpParserClass $class
+   * @param File $file
+   */
+  public function __construct($namespace, array $uses, PhpParserClass $class, File $file) {
+    $this->namespace = $namespace;
+    $this->file = $file;
+    $this->node = $class;
+    $this->uses = $uses;
+    $this->fqn = join('\\', array_filter([$namespace, $class->name]));
+    $this->resolveNames();
+    if (NULL === $this->fqParent && isset($class->extends)) {
+      throw new \RuntimeException(
+        'Something is amiss, resolved parent name and actual parent differ in ' .
+        $file->getSplFile()->getRealPath() . ':' . $class->getLine()
+      );
+    }
+    if (count($this->implements) !== count($class->implements)) {
+      throw new \RuntimeException(
+        'Something is amiss, resolved ' . count($this->implements) .
+        ' interface(s) but found ' . count($class->implements) .
+        ' actual interface(s) in ' .
+        $file->getSplFile()->getRealPath() . ':' . $class->getLine()
+      );
+    }
+  }
+
+  /**
+   * The "names" presented in "parent" and "interfaces" may not be fully
+   * qualified; this steps resolved this
+   */
+  private function resolveNames() {
+    if (isset($this->node->extends)) {
+      $this->fqParent = $this->resolveName($this->node->extends);
+    }
+    foreach ($this->node->implements as $name) {
+      $this->implements[$this->resolveName($name)] = NULL;
+    }
+  }
+
+  /**
+   * @return ParsedMethod[]
+   */
+  public function getMethods() {
+    if (NULL === $this->methods) {
+      $this->methods = array_map(function (ClassMethod $method) {
+          return new ParsedMethod($this, $method);
+        },
+        $this->node->getMethods()
+      );
+    }
+    return $this->methods;
+  }
+
+  /**
+   * @return Class_|NULL
+   */
+  public function getParent() {
+    return $this->parent;
+  }
+
+  /**
+   * @param Class_ $parent
+   * @return $this
+   */
+  public function setParent(Class_ $parent) {
+    if ($parent->getName() !== $this->fqParent) {
+      throw new \RuntimeException(
+        'Expected class ' . $this->fqParent . ' but got ' . $parent->getName()
+        . ' instead'
+      );
+    }
+    $this->parent = $parent;
+    return $this;
+  }
+
+  /**
+   * @return Interface_[]
+   */
+  public function getInterfaces() {
+    return array_values($this->implements);
+  }
+
+  /**
+   * @param Interface_ $interface
+   * @return $this
+   */
+  public function addInterface(Interface_ $interface) {
+    if (!array_key_exists($interface->getName(), $this->implements)) {
+      throw new \RuntimeException(
+        'Class ' . $this->fqn . ' is not supposed to have the interface ' .
+        $interface->getName()
+      );
+    }
+    $this->implements[$interface->getName()] = $interface;
+    return $this;
+  }
+
+  /**
+   * @return NULL|string
+   */
+  public function getFqExtends() {
+    return $this->fqParent;
+  }
+
+  /**
+   * @return string[]
+   */
+  public function getInterfaceNames() {
+    return array_keys($this->implements);
+  }
+
+  /**
+   * Return an string identifier for this kind of object; no harm using
+   * something human readable like 'Class', etc.
+   *
+   * @return string
+   */
+  public function getKind() {
+    return 'Class';
+  }
+
+  /**
+   * It returns the same object as getNode() but it's explicit about it's type
+   *
+   * @return PhpParserClass
+   */
+  public function getClass() {
+    return $this->node;
+  }
+
+  /**
+   * @return bool
+   */
+  public function isInterface() {
+    return false;
+  }
+
+  /**
+   * @return bool
+   */
+  public function isClass() {
+    return true;
+  }
+}
