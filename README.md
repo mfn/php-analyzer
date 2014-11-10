@@ -25,8 +25,7 @@ See the `--help` switch for more details.
 All files are run through the [nikic/PHP-Parser](https://github.com/nikic/PHP-Parser)
 and after that an internal graph of the classes/interfaces is built.
 
-After that, all analyzers available are run against the sources and a reports
-are generated.
+All analyzers available are run against the sources reports are generated.
 
 The following analysis is currently performed:
 - detection of missing method implementations of abstract classes
