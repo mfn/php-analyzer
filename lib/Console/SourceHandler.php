@@ -43,7 +43,7 @@ class SourceHandler {
     $command
       ->addOption('load-from', NULL, InputOption::VALUE_REQUIRED,
         'Additional file with list of files/directories to scan.')
-      ->addArgument('sources', InputArgument::OPTIONAL,
+      ->addArgument('sources', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
         'Files/directories to scan');
   }
 
@@ -55,13 +55,15 @@ class SourceHandler {
         array_map('trim', file($input->getOption('load-from')))
       );
     }
-    $inputSources = array_merge(
-      $inputSources,
-      $input->getArgument('sources')
-    );
+    if (NULL !== $input->getArgument('sources')) {
+      $inputSources = array_merge(
+        $inputSources,
+        $input->getArgument('sources')
+      );
+    }
     $inputSources = array_unique($inputSources);
     if (empty($inputSources)) {
-      throw new \RuntimeException('No inputSources/directories to scan provided.');
+      throw new \RuntimeException('No input sources/directories for scanning provided.');
     }
 
     /** @var \SplFileInfo[] $files */
