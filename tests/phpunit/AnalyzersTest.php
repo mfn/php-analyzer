@@ -127,10 +127,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase {
     $this->project->analyze();
     $reports = $this->project->getAnalyzerReports();
     $this->assertSame(1, count($reports));
-    $this->assertSame(
-      'Access type for interface method Mfn\PHP\Analyzer\Tests\InterfaceMethodAbstract\Foo::bar() must be ommmited in /Users/mfischer/src/mfn-php-analyzer/tests/analyzer/004_interface_method_abstract.phptest:27',
-      $reports[0]->getTimestampedReport()->getReport()->report()
-    );
+    $this->assertSame(27, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
   }
 
   public function testDynamicClassInstantiation() {
@@ -230,10 +227,8 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase {
       'Declaration of Mfn\PHP\Analyzer\Tests\MethodDeclarationCompatibility\b::c($a, $a) must be compatible with Mfn\PHP\Analyzer\Tests\MethodDeclarationCompatibility\a::c(array $a = 1)',
       $reports[2]->getTimestampedReport()->getReport()->report()
     );
-    $this->assertSame(
-      'Access type for interface method Mfn\PHP\Analyzer\Tests\InterfaceMethodAbstract\Foo::bar() must be ommmited in /Users/mfischer/src/mfn-php-analyzer/tests/analyzer/004_interface_method_abstract.phptest:27',
-      $reports[3]->getTimestampedReport()->getReport()->report()
-    );
+    # Empty exception catch block reports
+    $this->assertSame(27, $reports[3]->getSourceFragment()->getLineSegment()->getHighlightLine());
     $this->assertSame(
       'Dynamic class instantiation with variable $foo in 003_dynamic_class_instantiation.phptest:26',
       $reports[4]->getTimestampedReport()->getReport()->report()
