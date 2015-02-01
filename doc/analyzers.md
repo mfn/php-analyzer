@@ -22,6 +22,14 @@ Report all occurrences of dynamic class invocation, e.g. `new $foo`.
 Those *can be* a source of bad design and hint for refactoring; this analyzer
 reports all source code fragments contain dynamic class instantiation.
 
+#### Class [Mfn\PHP\Analyzer\Analyzers\ExceptionEmptyCatch\ExceptionEmptyCatch](/lib/Analyzers/ExceptionEmptyCatch/ExceptionEmptyCatch.php)
+
+Find all empty exception catch blocks
+
+They're often a block hole of confusion because they literally swallow the
+actual error and make it really hard to errors. They're one of the top-most
+bad practices. Empty catch blocks are by default emitted as warnings.
+
 #### Class [Mfn\PHP\Analyzer\Analyzers\InterfaceMethodAbstract](/lib/Analyzers/InterfaceMethodAbstract.php)
 
 Finds wrong interface method access types.

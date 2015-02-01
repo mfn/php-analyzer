@@ -34,6 +34,7 @@ The following analysis is currently performed:
 - methods defined abstract on an interface<br>
   Probably a bit pointless because the php linter detects this.
 - warns when using dynamic class instantiation, i.e. `new $foo`
+- warns when encountering empty exception catch blocks
 
 Learn more:
 - [The architecture of the Framework itself](doc/framework.md)

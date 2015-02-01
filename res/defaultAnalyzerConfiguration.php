@@ -28,6 +28,7 @@
  */
 use Mfn\PHP\Analyzer\Analyzers\CakePHP2\QueryConditionVariables;
 use Mfn\PHP\Analyzer\Analyzers\DynamicClassInstantiation;
+use Mfn\PHP\Analyzer\Analyzers\ExceptionEmptyCatch\ExceptionEmptyCatch;
 use Mfn\PHP\Analyzer\Analyzers\InterfaceMethodAbstract;
 use Mfn\PHP\Analyzer\Analyzers\MethodCompatibility\MethodCompatibility;
 use Mfn\PHP\Analyzer\Analyzers\MissingMethod\AbstractMissing;
@@ -52,4 +53,5 @@ return [
   new InterfaceMethodAbstract($objectGraph),
   new DynamicClassInstantiation(),
   new QueryConditionVariables(),
+  new ExceptionEmptyCatch(),
 ];

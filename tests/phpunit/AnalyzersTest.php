@@ -26,6 +26,7 @@ namespace Mfn\PHP\Analyzer;
 
 use Mfn\PHP\Analyzer\Analyzers\CakePHP2\QueryConditionVariables;
 use Mfn\PHP\Analyzer\Analyzers\DynamicClassInstantiation;
+use Mfn\PHP\Analyzer\Analyzers\ExceptionEmptyCatch\ExceptionEmptyCatch;
 use Mfn\PHP\Analyzer\Analyzers\InterfaceMethodAbstract;
 use Mfn\PHP\Analyzer\Analyzers\MethodCompatibility\MethodCompatibility;
 use Mfn\PHP\Analyzer\Analyzers\MissingMethod\AbstractMissing;
@@ -190,6 +191,20 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase {
     $this->assertSame(0, count($reports));
   }
 
+  public function testExceptionEmptyCatchBlockAnalyzer() {
+    $this->project->addSplFileInfo(
+      new \SplFileInfo(self::getAnalyzerFilename('009_empty_catch_block'))
+    );
+    $this->project->addAnalyzer(new ExceptionEmptyCatch());
+    $this->project->analyze();
+    $reports = $this->project->getAnalyzerReports();
+    $this->assertSame(2, count($reports));
+    # Line counting starts with 0
+    $this->assertSame(27, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
+    $this->assertSame(32, $reports[1]->getSourceFragment()->getLineSegment()->getHighlightLine());
+  }
+
+
   /**
    * Although this test seems redundant I use it to ensure that as far as it's
    * possible the analyzers do not negatively affect each other.
@@ -202,7 +217,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase {
     $project->addAnalyzers(Project::getDefaultConfig());
     $project->analyze();
     $reports = $project->getAnalyzerReports();
-    $this->assertSame(8, count($reports));
+    $this->assertSame(10, count($reports));
     $this->assertSame(
       'Class Mfn\PHP\Analyzer\Tests\AbstractMethodMissing\b misses the following abstract method: Mfn\PHP\Analyzer\Tests\AbstractMethodMissing\a::b()',
       $reports[0]->getTimestampedReport()->getReport()->report()
@@ -239,5 +254,8 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase {
       31,
       $reports[7]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
     );
+    # Empty exception catch block reports
+    $this->assertSame(27, $reports[8]->getSourceFragment()->getLineSegment()->getHighlightLine());
+    $this->assertSame(32, $reports[9]->getSourceFragment()->getLineSegment()->getHighlightLine());
   }
 }
