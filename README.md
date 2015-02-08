@@ -79,6 +79,7 @@ The phing tasks supports the fileset subnode.
 <target name="analyze">
   <mfn-php-analyzer
     haltonerror="true"
+    haltonerror="false"
     >
     <fileset dir="lib" />
   </mfn-php-analyzer>
@@ -86,7 +87,8 @@ The phing tasks supports the fileset subnode.
 ```
 
 The following attributes are supported:
-- `haltonerror` : boolean true/false ; defaults to true
+- `haltonerror` : Halt build on error; true/false ; defaults to true
+- `haltonwarning` : Halt build on warning; true/false ; defaults to false
 - `configfile`: a plain PHP file which is expected to return an array of
 `Analyzer`; see `res/defaultAnalyzerConfiguration.php` for an example.
 - `logfile` : write analysis result to this file<br>

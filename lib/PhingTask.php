@@ -34,6 +34,8 @@ class PhingTask extends \Task {
   private $filesets;
   /** @var bool */
   private $haltonerror = true;
+  /** @var bool */
+  private $haltonwarning = false;
   /** @var \PhingFile */
   private $logfile = NULL;
   /**
@@ -62,6 +64,24 @@ class PhingTask extends \Task {
         'Attribute haltonerror is a boolean attribute and requires true/false');
     }
     $this->haltonerror = $haltonerror;
+  }
+
+  /**
+   * @return boolean
+   */
+  public function isHaltonwarning() {
+    return $this->haltonwarning;
+  }
+
+  /**
+   * @param boolean $haltonwarning
+   */
+  public function setHaltonwarning($haltonwarning) {
+    if (!is_bool($haltonwarning)) {
+      throw new \InvalidArgumentException(
+        'Attribute haltonwarning is a boolean attribute and requires true/false');
+    }
+    $this->haltonwarning = $haltonwarning;
   }
 
   public function addFileSet(\FileSet $fs) {
@@ -107,7 +127,7 @@ class PhingTask extends \Task {
     $project->analyze();
 
     $buildErrorMessage = $listener->getBuildErrorMessage();
-    if ($this->haltonerror && !empty($buildErrorMessage)) {
+    if (!empty($buildErrorMessage)) {
       throw new \BuildException($buildErrorMessage);
     }
   }

@@ -79,6 +79,8 @@ class Phing implements Listener {
 
   public function addReport(AnalyzerReport $analyzerReport) {
     $report = $analyzerReport->getTimestampedReport()->getReport();
+
+    # Check if an analyzer error should translate to a build error
     if (
       $this->task->isHaltonerror() &&
       '' === $this->buildErrorMessage &&
@@ -86,6 +88,16 @@ class Phing implements Listener {
     ) {
       $this->buildErrorMessage = $report->report();
     }
+
+    # Check if an analyzer warning should translate to a build error
+    if (
+      $this->task->isHaltonwarning() &&
+      '' === $this->buildErrorMessage &&
+      $analyzerReport->getAnalyzer()->getSeverity() === Severity::WARNING
+    ) {
+      $this->buildErrorMessage = $report->report();
+    }
+
     if ($this->logfileWriter && $this->logFormat === 'plain') {
       /** @noinspection PhpParamsInspection */
       $this->logfileWriter->write(Plain::formatReportReadable($analyzerReport));
