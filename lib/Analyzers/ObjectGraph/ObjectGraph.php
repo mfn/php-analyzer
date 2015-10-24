@@ -68,359 +68,398 @@ use PhpParser\NodeVisitor;
  * to navigate around the object, e.g. they project methods to access the
  * parent class with `Class_::getInterfaces`, etc.
  */
-class ObjectGraph extends Analyzer implements NodeVisitor {
+class ObjectGraph extends Analyzer implements NodeVisitor
+{
 
-  /** @var GenericObject[] */
-  private $objects = [];
+    /** @var GenericObject[] */
+    private $objects = [];
 
-  # From here on, NodeVisitor runtime properties
-  /** @var string */
-  private $currentNamespace = '';
-  /** @var Use_[] */
-  private $currentUseStatements = [];
-  /** @var File */
-  private $currentFile = NULL;
+    # From here on, NodeVisitor runtime properties
+    /** @var string */
+    private $currentNamespace = '';
+    /** @var Use_[] */
+    private $currentUseStatements = [];
+    /** @var File */
+    private $currentFile = null;
 
-  /** @var Project */
-  private $project = NULL;
+    /** @var Project */
+    private $project = null;
 
-  public function analyze(Project $project) {
-    $this->project = $project;
-    $logger = $project->getLogger();
-    $traverser = new NodeTraverser();
-    $traverser->addVisitor($this);
-    foreach ($project->getFiles() as $file) {
-      $logger->info('Traversing ' . $file->getSplFile()->getRealPath());
-      $this->currentFile = $file;
-      $traverser->traverse($file->getTree());
-    }
-    $this->resolveGraph();
-  }
-
-  /**
-   * Resolves object references within the graph
-   *
-   * Call this once you added new objects to the graph to have them resolved
-   * or their references resolved in previously added objects.
-   */
-  public function resolveGraph() {
-    foreach ($this->objects as $fqn => $object) {
-
-      if ($object instanceof ParsedClass) {
-
-        $fqExtends = $object->getFqExtends();
-        if (NULL !== $fqExtends) {
-          $extends = $this->getClassByFqnInRelation($object, $fqExtends);
-          if (NULL !== $extends) {
-            $object->setParent($extends);
-          }
+    public function analyze(Project $project)
+    {
+        $this->project = $project;
+        $logger = $project->getLogger();
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($this);
+        foreach ($project->getFiles() as $file) {
+            $logger->info('Traversing ' . $file->getSplFile()->getRealPath());
+            $this->currentFile = $file;
+            $traverser->traverse($file->getTree());
         }
-        foreach ($object->getInterfaceNames() as $fqImplements) {
-          $implements = $this->getInterfaceByFqnInRelation($object, $fqImplements);
-          if (NULL !== $implements) {
-            $object->addInterface($implements);
-          }
+        $this->resolveGraph();
+    }
+
+    /**
+     * Resolves object references within the graph
+     *
+     * Call this once you added new objects to the graph to have them resolved
+     * or their references resolved in previously added objects.
+     */
+    public function resolveGraph()
+    {
+        foreach ($this->objects as $fqn => $object) {
+
+            if ($object instanceof ParsedClass) {
+
+                $fqExtends = $object->getFqExtends();
+                if (null !== $fqExtends) {
+                    $extends = $this->getClassByFqnInRelation($object, $fqExtends);
+                    if (null !== $extends) {
+                        $object->setParent($extends);
+                    }
+                }
+                foreach ($object->getInterfaceNames() as $fqImplements) {
+                    $implements = $this->getInterfaceByFqnInRelation($object, $fqImplements);
+                    if (null !== $implements) {
+                        $object->addInterface($implements);
+                    }
+                }
+
+            } else {
+                if ($object instanceof ParsedInterface) {
+
+                    foreach ($object->getInterfaceNames() as $fqExtends) {
+                        $extends = $this->getInterfaceByFqnInRelation($object, $fqExtends);
+                        if (null !== $extends) {
+                            $object->addInterface($extends);
+                        }
+                    }
+
+                } else {
+                    if ($object instanceof ReflectedClass) {
+
+                        $class = $object->getReflectionClass();
+
+                        if (false !== $parent = $class->getParentClass()) {
+                            $extends = $this->getClassByFqnInRelation($object, $parent->getName());
+                            $object->setParent($extends);
+                        }
+
+                        foreach ($class->getInterfaceNames() as $fqImplements) {
+                            $implements = $this->getInterfaceByFqnInRelation($object, $fqImplements);
+                            $object->addInterface($implements);
+                        }
+
+                    } else {
+                        if ($object instanceof ReflectedInterface) {
+
+                            $interface = $object->getReflectionClass();
+
+                            foreach ($interface->getInterfaceNames() as $fqExtends) {
+                                $extends = $this->getInterfaceByFqnInRelation($object, $fqExtends);
+                                $object->addInterface($extends);
+                            }
+
+                        } else {
+                            throw new \RuntimeException(
+                                'Unsupported object of type ' . get_class($object));
+                        }
+                    }
+                }
+            }
         }
+    }
 
-      } else if ($object instanceof ParsedInterface) {
-
-        foreach ($object->getInterfaceNames() as $fqExtends) {
-          $extends = $this->getInterfaceByFqnInRelation($object, $fqExtends);
-          if (NULL !== $extends) {
-            $object->addInterface($extends);
-          }
+    /**
+     * @param GenericObject $fromObject
+     * @param string $fqn
+     * @return NULL|ParsedClass
+     */
+    private function getClassByFqnInRelation(GenericObject $fromObject, $fqn)
+    {
+        $class = $this->getObjectByFqn($fqn);
+        if (null !== $class && !($class instanceof Class_)) {
+            throw new ObjectTypeMissmatchException($fromObject, $class, 'Class');
         }
+        return $class;
+    }
 
-      } else if ($object instanceof ReflectedClass) {
-
-        $class = $object->getReflectionClass();
-
-        if (false !== $parent = $class->getParentClass()) {
-          $extends = $this->getClassByFqnInRelation($object, $parent->getName());
-          $object->setParent($extends);
+    /**
+     * @param string $fqn
+     * @return NULL|GenericObject
+     */
+    public function getObjectByFqn($fqn)
+    {
+        if (!isset($this->objects[$fqn])) {
+            return null;
         }
+        return $this->objects[$fqn];
+    }
 
-        foreach ($class->getInterfaceNames() as $fqImplements) {
-          $implements = $this->getInterfaceByFqnInRelation($object, $fqImplements);
-          $object->addInterface($implements);
+    /**
+     * @param GenericObject $fromObject
+     * @param string $fqn
+     * @return NULL|ParsedInterface
+     */
+    private function getInterfaceByFqnInRelation(GenericObject $fromObject, $fqn)
+    {
+        $class = $this->getObjectByFqn($fqn);
+        if (null !== $class && !($class instanceof Interface_)) {
+            throw new ObjectTypeMissmatchException($fromObject, $class, 'Interface');
         }
+        return $class;
+    }
 
-      } else if ($object instanceof ReflectedInterface) {
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'ObjectGraph';
+    }
 
-        $interface = $object->getReflectionClass();
-
-        foreach ($interface->getInterfaceNames() as $fqExtends) {
-          $extends = $this->getInterfaceByFqnInRelation($object, $fqExtends);
-          $object->addInterface($extends);
+    /**
+     * @param string $fqn
+     * @return NULL|ParsedClass
+     */
+    public function getClassByFqn($fqn)
+    {
+        if (!isset($this->objects[$fqn])) {
+            return null;
         }
-
-      } else {
-        throw new \RuntimeException(
-          'Unsupported object of type ' . get_class($object));
-      }
+        $class = $this->objects[$fqn];
+        if (!($class instanceof ParsedClass)) {
+            return null;
+        }
+        return $class;
     }
-  }
 
-  /**
-   * @param GenericObject $fromObject
-   * @param string $fqn
-   * @return NULL|ParsedClass
-   */
-  private function getClassByFqnInRelation(GenericObject $fromObject, $fqn) {
-    $class = $this->getObjectByFqn($fqn);
-    if (NULL !== $class && !($class instanceof Class_)) {
-      throw new ObjectTypeMissmatchException($fromObject, $class, 'Class');
+    /**
+     * @param string $fqn
+     * @return NULL|ParsedInterface
+     */
+    public function getInterfaceByFqn($fqn)
+    {
+        if (!isset($this->objects[$fqn])) {
+            return null;
+        }
+        $interface = $this->objects[$fqn];
+        if (!($interface instanceof ParsedInterface)) {
+            return null;
+        }
+        return $interface;
     }
-    return $class;
-  }
 
-  /**
-   * @param string $fqn
-   * @return NULL|GenericObject
-   */
-  public function getObjectByFqn($fqn) {
-    if (!isset($this->objects[$fqn])) {
-      return NULL;
+    /**
+     * @return ParsedObject[]
+     */
+    public function getObjects()
+    {
+        return $this->objects;
     }
-    return $this->objects[$fqn];
-  }
 
-  /**
-   * @param GenericObject $fromObject
-   * @param string $fqn
-   * @return NULL|ParsedInterface
-   */
-  private function getInterfaceByFqnInRelation(GenericObject $fromObject, $fqn) {
-    $class = $this->getObjectByFqn($fqn);
-    if (NULL !== $class && !($class instanceof Interface_)) {
-      throw new ObjectTypeMissmatchException($fromObject, $class, 'Interface');
-    }
-    return $class;
-  }
-
-  /**
-   * @return string
-   */
-  public function getName() {
-    return 'ObjectGraph';
-  }
-
-  /**
-   * @param string $fqn
-   * @return NULL|ParsedClass
-   */
-  public function getClassByFqn($fqn) {
-    if (!isset($this->objects[$fqn])) {
-      return NULL;
-    }
-    $class = $this->objects[$fqn];
-    if (!($class instanceof ParsedClass)) {
-      return NULL;
-    }
-    return $class;
-  }
-
-  /**
-   * @param string $fqn
-   * @return NULL|ParsedInterface
-   */
-  public function getInterfaceByFqn($fqn) {
-    if (!isset($this->objects[$fqn])) {
-      return NULL;
-    }
-    $interface = $this->objects[$fqn];
-    if (!($interface instanceof ParsedInterface)) {
-      return NULL;
-    }
-    return $interface;
-  }
-
-  /**
-   * @return ParsedObject[]
-   */
-  public function getObjects() {
-    return $this->objects;
-  }
-
-  /**
-   * @return ParsedClass[]
-   */
-  public function getClasses() {
-    return array_filter(
-      $this->objects,
-      function ($class) {
-        return $class instanceof ParsedClass;
-      }
-    );
-  }
-
-  /**
-   * @return ParsedInterface[]
-   */
-  public function getInterfaces() {
-    return array_filter(
-      $this->objects,
-      function ($class) {
-        return $class instanceof ParsedInterface;
-      }
-    );
-  }
-
-  public function enterNode(Node $node) {
-    if (
-      $node instanceof Namespace_
-      &&
-      NULL !== $node->name # We're not concerned about the global namespace
-    ) {
-      $this->currentNamespace = join('\\', $node->name->parts);
-    } else if ($node instanceof Use_ && $node->type === Use_::TYPE_NORMAL) {
-      $this->currentUseStatements[] = $node;
-    } else if ($node instanceof PhpParserClass || $node instanceof PhpParserInterface) {
-      /** @var ParsedObject|NULL $object */
-      $object = NULL;
-      if ($node instanceof PhpParserClass) {
-        $object = new ParsedClass(
-          $this->currentNamespace,
-          $this->currentUseStatements,
-          $node,
-          $this->currentFile
+    /**
+     * @return ParsedClass[]
+     */
+    public function getClasses()
+    {
+        return array_filter(
+            $this->objects,
+            function ($class) {
+                return $class instanceof ParsedClass;
+            }
         );
-      } else if ($node instanceof PhpParserInterface) {
-        $object = new ParsedInterface(
-          $this->currentNamespace,
-          $this->currentUseStatements,
-          $node,
-          $this->currentFile
+    }
+
+    /**
+     * @return ParsedInterface[]
+     */
+    public function getInterfaces()
+    {
+        return array_filter(
+            $this->objects,
+            function ($class) {
+                return $class instanceof ParsedInterface;
+            }
         );
-      }
-      if (NULL !== $object) {
-        try {
-          $this->addObject($object);
-        } catch (ObjectAlreadyExistsException $e) {
-          $existingObject = $this->getObjectByFqn($object->getName());
-          $msg =
-            'Multiple declarations of the same type are not supported. Symbol ' .
-            $object->getName() . ' from ' .
-            $this->currentFile->getSplFile()->getRealPath() .
-            ':' . $node->getLine();
-          if ($existingObject instanceof ParsedObject) {
-            $msg .= ' already found in ' .
-              $existingObject->getFile()->getSplFile()->getRealPath() . ':' .
-              $existingObject->getNode()->getLine() . ' ; only the first ' .
-              'encounter is used';
-          } else if ($existingObject instanceof ReflectedObject) {
-            $msg .= ' clashes with internal ' .
-              strtolower($existingObject->getKind()) . ' ' .
-              $existingObject->getName();
-          } else {
-            throw new \RuntimeException('Unknown existing object '
-              . $existingObject->getName());
-          }
-          $this->project->getLogger()->warning($msg);
+    }
+
+    public function enterNode(Node $node)
+    {
+        if (
+            $node instanceof Namespace_
+            &&
+            null !== $node->name # We're not concerned about the global namespace
+        ) {
+            $this->currentNamespace = join('\\', $node->name->parts);
+        } else {
+            if ($node instanceof Use_ && $node->type === Use_::TYPE_NORMAL) {
+                $this->currentUseStatements[] = $node;
+            } else {
+                if ($node instanceof PhpParserClass || $node instanceof PhpParserInterface) {
+                    /** @var ParsedObject|NULL $object */
+                    $object = null;
+                    if ($node instanceof PhpParserClass) {
+                        $object = new ParsedClass(
+                            $this->currentNamespace,
+                            $this->currentUseStatements,
+                            $node,
+                            $this->currentFile
+                        );
+                    } else {
+                        if ($node instanceof PhpParserInterface) {
+                            $object = new ParsedInterface(
+                                $this->currentNamespace,
+                                $this->currentUseStatements,
+                                $node,
+                                $this->currentFile
+                            );
+                        }
+                    }
+                    if (null !== $object) {
+                        try {
+                            $this->addObject($object);
+                        } catch (ObjectAlreadyExistsException $e) {
+                            $existingObject = $this->getObjectByFqn($object->getName());
+                            $msg =
+                                'Multiple declarations of the same type are not supported. Symbol ' .
+                                $object->getName() . ' from ' .
+                                $this->currentFile->getSplFile()->getRealPath() .
+                                ':' . $node->getLine();
+                            if ($existingObject instanceof ParsedObject) {
+                                $msg .= ' already found in ' .
+                                    $existingObject->getFile()->getSplFile()->getRealPath() . ':' .
+                                    $existingObject->getNode()->getLine() . ' ; only the first ' .
+                                    'encounter is used';
+                            } else {
+                                if ($existingObject instanceof ReflectedObject) {
+                                    $msg .= ' clashes with internal ' .
+                                        strtolower($existingObject->getKind()) . ' ' .
+                                        $existingObject->getName();
+                                } else {
+                                    throw new \RuntimeException('Unknown existing object '
+                                        . $existingObject->getName());
+                                }
+                            }
+                            $this->project->getLogger()->warning($msg);
+                        }
+                    }
+                }
+            }
         }
-      }
+
     }
 
-  }
-
-  /**
-   * @param GenericObject $obj
-   * @return $this
-   */
-  public function addObject(GenericObject $obj) {
-    $fqn = $obj->getName();
-    if (isset($this->objects[$fqn])) {
-      throw new ObjectAlreadyExistsException($obj);
+    /**
+     * @param GenericObject $obj
+     * @return $this
+     */
+    public function addObject(GenericObject $obj)
+    {
+        $fqn = $obj->getName();
+        if (isset($this->objects[$fqn])) {
+            throw new ObjectAlreadyExistsException($obj);
+        }
+        $this->objects[$fqn] = $obj;
+        return $this;
     }
-    $this->objects[$fqn] = $obj;
-    return $this;
-  }
 
-  public function beforeTraverse(array $nodes) {
-    $this->resetVisitorData();
-  }
+    public function beforeTraverse(array $nodes)
+    {
+        $this->resetVisitorData();
+    }
 
-  public function resetVisitorData() {
-    $this->currentNamespace = '';
-    $this->currentUseStatements = [];
-  }
+    public function resetVisitorData()
+    {
+        $this->currentNamespace = '';
+        $this->currentUseStatements = [];
+    }
 
-  public function leaveNode(Node $node) {
-  }
+    public function leaveNode(Node $node)
+    {
+    }
 
-  public function afterTraverse(array $nodes) {
-  }
+    public function afterTraverse(array $nodes)
+    {
+    }
 
-  /**
-   * @return Project
-   */
-  public function getProject() {
-    return $this->project;
-  }
+    /**
+     * @return Project
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
 
-  /**
-   * @param Project $project
-   * @return $this
-   */
-  public function setProject($project) {
-    $this->project = $project;
-    return $this;
-  }
+    /**
+     * @param Project $project
+     * @return $this
+     */
+    public function setProject($project)
+    {
+        $this->project = $project;
+        return $this;
+    }
 }
 
-class ObjectTypeMissmatchException extends \RuntimeException {
+class ObjectTypeMissmatchException extends \RuntimeException
+{
 
-  /** @var ParsedObject */
-  private $current;
-  /** @var ParsedObject */
-  private $related;
-  /** @var string */
-  private $expected;
+    /** @var ParsedObject */
+    private $current;
+    /** @var ParsedObject */
+    private $related;
+    /** @var string */
+    private $expected;
 
-  /**
-   * @param GenericObject $current
-   * @param GenericObject $related
-   * @param string $expectedKind
-   */
-  public function __construct(GenericObject $current, GenericObject $related, $expectedKind) {
-    $this->current = $current;
-    $this->related = $related;
-    $this->expected = $expectedKind;
+    /**
+     * @param GenericObject $current
+     * @param GenericObject $related
+     * @param string $expectedKind
+     */
+    public function __construct(GenericObject $current, GenericObject $related, $expectedKind)
+    {
+        $this->current = $current;
+        $this->related = $related;
+        $this->expected = $expectedKind;
 
-    $msg = $current->getKind() . ' ' . $current->getName();
-    if ($current instanceof ParsedObject) {
-      $msg .= ' found in ' .
-        $current->getFile()->getSplFile()->getRealPath() . ':' .
-        $current->getNode()->getLine();
+        $msg = $current->getKind() . ' ' . $current->getName();
+        if ($current instanceof ParsedObject) {
+            $msg .= ' found in ' .
+                $current->getFile()->getSplFile()->getRealPath() . ':' .
+                $current->getNode()->getLine();
+        }
+        $msg .= ' expected relation to ' . $related->getKind() . ' ' . $related->getName();
+        if ($related instanceof ParsedObject) {
+            $msg .= ' found in ' .
+                $related->getFile()->getSplFile()->getRealPath() . ':' .
+                $related->getNode()->getLine();
+        }
+        $msg .= ' to be of kind ' . $expectedKind . ' but is ' . $related->getKind()
+            . ' instead';
+
+        parent::__construct($msg);
     }
-    $msg .= ' expected relation to ' . $related->getKind() . ' ' . $related->getName();
-    if ($related instanceof ParsedObject) {
-      $msg .= ' found in ' .
-        $related->getFile()->getSplFile()->getRealPath() . ':' .
-        $related->getNode()->getLine();
-    }
-    $msg .= ' to be of kind ' . $expectedKind . ' but is ' . $related->getKind()
-      . ' instead';
-
-    parent::__construct($msg);
-  }
 }
 
-class ObjectAlreadyExistsException extends \RuntimeException {
+class ObjectAlreadyExistsException extends \RuntimeException
+{
 
-  /** @var GenericObject */
-  private $object;
+    /** @var GenericObject */
+    private $object;
 
-  public function __construct(GenericObject $object) {
-    $this->object = $object;
-    parent::__construct(
-      'Object with fqn ' . $object->getName() . ' already exists');
-  }
+    public function __construct(GenericObject $object)
+    {
+        $this->object = $object;
+        parent::__construct(
+            'Object with fqn ' . $object->getName() . ' already exists');
+    }
 
-  /**
-   * @return GenericObject
-   */
-  public function getObject() {
-    return $this->object;
-  }
+    /**
+     * @return GenericObject
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
 }

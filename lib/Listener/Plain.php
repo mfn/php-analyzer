@@ -32,25 +32,31 @@ use Mfn\PHP\Analyzer\Report\Formatter\Plain as PlainFormatter;
 /**
  * A plain text formatter
  */
-class Plain extends FilePointerWriter {
+class Plain extends FilePointerWriter
+{
 
-  public function addReport(AnalyzerReport $analyzerReport) {
-    $this->write(PlainFormatter::formatReportReadable($analyzerReport));
-  }
+    public function addReport(AnalyzerReport $analyzerReport)
+    {
+        $this->write(PlainFormatter::formatReportReadable($analyzerReport));
+    }
 
-  public function projectStart(Project $project) {
-    // TODO: Implement projectStart() method.
-  }
+    public function projectStart(Project $project)
+    {
+        // TODO: Implement projectStart() method.
+    }
 
-  public function projectEnd(Project $project) {
-    // TODO: Implement projectEnd() method.
-  }
+    public function projectEnd(Project $project)
+    {
+        // TODO: Implement projectEnd() method.
+    }
 
-  public function beforeAnalyzer(Analyzer $analyzer) {
-    // TODO: Implement beforeAnalyzer() method.
-  }
+    public function beforeAnalyzer(Analyzer $analyzer)
+    {
+        // TODO: Implement beforeAnalyzer() method.
+    }
 
-  public function afterAnalyzer(Analyzer $analyzer) {
-    // TODO: Implement afterAnalyzer() method.
-  }
+    public function afterAnalyzer(Analyzer $analyzer)
+    {
+        // TODO: Implement afterAnalyzer() method.
+    }
 }

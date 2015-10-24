@@ -25,22 +25,23 @@
 namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 
 
-interface HasInterfaces {
+interface HasInterfaces
+{
 
-  /**
-   * @return Interface_[]
-   */
-  public function getInterfaces();
+    /**
+     * @return Interface_[]
+     */
+    public function getInterfaces();
 
-  /**
-   * @param Interface_ $interface
-   * @return $this
-   */
-  public function addInterface(Interface_ $interface);
+    /**
+     * @param Interface_ $interface
+     * @return $this
+     */
+    public function addInterface(Interface_ $interface);
 
-  /**
-   * @return string[]
-   */
-  public function getInterfaceNames();
+    /**
+     * @return string[]
+     */
+    public function getInterfaceNames();
 
 }

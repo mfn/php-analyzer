@@ -27,21 +27,24 @@ namespace Mfn\PHP\Analyzer\Report;
 /**
  * String in, string out; it does not get any easier.
  */
-class StringReport extends Report {
+class StringReport extends Report
+{
 
-  protected $message = '';
+    protected $message = '';
 
-  /**
-   * @param string $message
-   */
-  public function __construct($message) {
-    $this->message = $message;
-  }
+    /**
+     * @param string $message
+     */
+    public function __construct($message)
+    {
+        $this->message = $message;
+    }
 
-  /**
-   * @return string
-   */
-  public function report() {
-    return $this->message;
-  }
+    /**
+     * @return string
+     */
+    public function report()
+    {
+        return $this->message;
+    }
 }

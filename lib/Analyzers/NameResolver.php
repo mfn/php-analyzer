@@ -37,23 +37,26 @@ use PhpParser\NodeVisitor\NameResolver as PhpParserNameResolver;
  * exception on duplicate defined names; this ensures further Analyzers
  * have at least these things already covered.
  */
-class NameResolver extends Analyzer {
+class NameResolver extends Analyzer
+{
 
-  /**
-   * @param Project $project
-   */
-  public function analyze(Project $project) {
-    $traverser = new NodeTraverser();
-    $traverser->addVisitor(new PhpParserNameResolver());
-    foreach ($project->getFiles() as $file) {
-      $traverser->traverse($file->getTree());
+    /**
+     * @param Project $project
+     */
+    public function analyze(Project $project)
+    {
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new PhpParserNameResolver());
+        foreach ($project->getFiles() as $file) {
+            $traverser->traverse($file->getTree());
+        }
     }
-  }
 
-  /**
-   * @return string
-   */
-  public function getName() {
-    return 'NameResolver';
-  }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'NameResolver';
+    }
 }

@@ -32,102 +32,111 @@ use Mfn\PHP\Analyzer\Analyzers\Tools\ParsedInterface;
 /**
  * Provide useful helper methods on a parsed object graph
  */
-class Helper {
+class Helper
+{
 
-  /** @var  ObjectGraph */
-  private $graph;
+    /** @var  ObjectGraph */
+    private $graph;
 
-  public function __construct(ObjectGraph $graph) {
-    $this->graph = $graph;
-  }
-
-  /**
-   * Checks if "$class instanceof $interface"
-   *
-   * @param NULL|Class_ $class
-   * @param Interface_ $superInterface
-   * @return bool
-   */
-  static public function classImplements(Class_ $class = NULL,
-                                         Interface_ $superInterface) {
-    if (NULL === $class) {
-      return false;
+    public function __construct(ObjectGraph $graph)
+    {
+        $this->graph = $graph;
     }
-    foreach ($class->getInterfaces() as $interface) {
-      if ($interface === $superInterface) {
-        return true;
-      }
-    }
-    return self::classImplements($class->getParent(), $superInterface);
-  }
 
-  /**
-   * Finds all classes extending the provided one
-   *
-   * @param ParsedClass $class
-   * @param bool $recursive Whether to find all descendants; off by default
-   * @return ParsedClass[]
-   */
-  public function findExtends(ParsedClass $class, $recursive = false) {
-    $found = [];
-    foreach ($this->graph->getClasses() as $object) {
-      if ($class === $object->getParent()) {
-        $found[] = $object;
-        if ($recursive) {
-          $found = array_merge(
-            $found,
-            $this->findExtends($object, $recursive)
-          );
+    /**
+     * Checks if "$class instanceof $interface"
+     *
+     * @param NULL|Class_ $class
+     * @param Interface_ $superInterface
+     * @return bool
+     */
+    static public function classImplements(
+        Class_ $class = null,
+        Interface_ $superInterface
+    ) {
+        if (null === $class) {
+            return false;
         }
-      }
+        foreach ($class->getInterfaces() as $interface) {
+            if ($interface === $superInterface) {
+                return true;
+            }
+        }
+        return self::classImplements($class->getParent(), $superInterface);
     }
-    return $found;
-  }
 
-  /**
-   * Finds all classes or interfaces implementing the provided one
-   *
-   * @param ParsedInterface $interface
-   * @return ParsedInterface[]|ParsedClass[]
-   */
-  public function findImplements(ParsedInterface $interface) {
-    $found = [];
-    foreach ($this->graph->getObjects() as $object) {
-      if ($object instanceof ParsedClass) {
-        foreach ($object->getInterfaces() as $implements) {
-          if ($interface === $implements) {
-            $found[] = $object;
-            break;
-          }
+    /**
+     * Finds all classes extending the provided one
+     *
+     * @param ParsedClass $class
+     * @param bool $recursive Whether to find all descendants; off by default
+     * @return ParsedClass[]
+     */
+    public function findExtends(ParsedClass $class, $recursive = false)
+    {
+        $found = [];
+        foreach ($this->graph->getClasses() as $object) {
+            if ($class === $object->getParent()) {
+                $found[] = $object;
+                if ($recursive) {
+                    $found = array_merge(
+                        $found,
+                        $this->findExtends($object, $recursive)
+                    );
+                }
+            }
         }
-      } else if ($object instanceof ParsedInterface) {
-        foreach ($object->getInterfaces() as $extends) {
-          if ($interface === $extends) {
-            $found[] = $object;
-            break;
-          }
-        }
-      }
+        return $found;
     }
-    return $found;
-  }
 
-  /**
-   * Finds all interfaces implementing the provided one
-   *
-   * @param ParsedInterface $interface
-   * @return ParsedInterface[]
-   */
-  public function findInterfaceImplements(ParsedInterface $interface) {
-    $found = [];
-    foreach ($this->graph->getInterfaces() as $object) {
-      foreach ($object->getInterfaces() as $extends) {
-        if ($interface === $extends) {
-          $found[] = $object;
-          break;
+    /**
+     * Finds all classes or interfaces implementing the provided one
+     *
+     * @param ParsedInterface $interface
+     * @return ParsedInterface[]|ParsedClass[]
+     */
+    public function findImplements(ParsedInterface $interface)
+    {
+        $found = [];
+        foreach ($this->graph->getObjects() as $object) {
+            if ($object instanceof ParsedClass) {
+                foreach ($object->getInterfaces() as $implements) {
+                    if ($interface === $implements) {
+                        $found[] = $object;
+                        break;
+                    }
+                }
+            } else {
+                if ($object instanceof ParsedInterface) {
+                    foreach ($object->getInterfaces() as $extends) {
+                        if ($interface === $extends) {
+                            $found[] = $object;
+                            break;
+                        }
+                    }
+                }
+            }
         }
-      }
+        return $found;
     }
-    return $found;
-  }
+
+    /**
+     * Finds all interfaces implementing the provided one
+     *
+     * @param ParsedInterface $interface
+     * @return ParsedInterface[]
+     */
+    public function findInterfaceImplements(ParsedInterface $interface)
+    {
+        $found = [];
+        foreach ($this->graph->getInterfaces() as $object) {
+            foreach ($object->getInterfaces() as $extends) {
+                if ($interface === $extends) {
+                    $found[] = $object;
+                    break;
+                }
+            }
+        }
+        return $found;
+    }
 }

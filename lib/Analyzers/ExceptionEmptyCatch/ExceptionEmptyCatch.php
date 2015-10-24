@@ -42,90 +42,98 @@ use PhpParser\NodeVisitor;
  * actual error and make it really hard to errors. They're one of the top-most
  * bad practices. Empty catch blocks are by default emitted as warnings.
  */
-class ExceptionEmptyCatch extends Analyzer implements NodeVisitor {
+class ExceptionEmptyCatch extends Analyzer implements NodeVisitor
+{
 
-  /**
-   * @var Project
-   */
-  private $project;
-  /**
-   * @var NonCommentStatementCollector
-   */
-  private $nonCommentCounterVisitor;
-  /**
-   * @var File
-   */
-  private $currentFile;
+    /**
+     * @var Project
+     */
+    private $project;
+    /**
+     * @var NonCommentStatementCollector
+     */
+    private $nonCommentCounterVisitor;
+    /**
+     * @var File
+     */
+    private $currentFile;
 
-  /**
-   *
-   */
-  public function __construct() {
-    $this->setSeverity(Severity::WARNING);
-    $this->subNodeTraverser = new NodeTraverser();
-    $this->nonCommentCounterVisitor = new NonCommentStatementCollector();
-    $this->subNodeTraverser->addVisitor($this->nonCommentCounterVisitor);
-  }
-
-  /**
-   * @return string
-   */
-  public function getName() {
-    return 'ExceptionEmptyCatchBlock';
-  }
-
-  /**
-   * @param Project $project
-   */
-  public function analyze(Project $project) {
-    $this->project = $project;
-    $traverser = new NodeTraverser();
-    $traverser->addVisitor($this);
-    foreach ($project->getFiles() as $file) {
-      $this->currentFile = $file;
-      $traverser->traverse($file->getTree());
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->setSeverity(Severity::WARNING);
+        $this->subNodeTraverser = new NodeTraverser();
+        $this->nonCommentCounterVisitor = new NonCommentStatementCollector();
+        $this->subNodeTraverser->addVisitor($this->nonCommentCounterVisitor);
     }
-  }
 
-  public function beforeTraverse(array $nodes) {
-  }
-
-  /**
-   * Called when entering a node.
-   *
-   * Return value semantics:
-   *  * null:      $node stays as-is
-   *  * otherwise: $node is set to the return value
-   *
-   * @param Node $node Node
-   *
-   * @return null|Node Node
-   */
-  public function enterNode(Node $node) {
-    if ($node instanceof Node\Stmt\Catch_) {
-      $this->subNodeTraverser->traverse($node->stmts);
-      $nonComments = $this->nonCommentCounterVisitor->getNonCommentStatements();
-      if (0 === $nonComments) {
-        $report = new StringReport('Empty catch block found');
-        $line = $node->getAttribute('startLine') - 1;
-        $report->setSourceFragment(
-          new SourceFragment(
-            $this->currentFile,
-            new Lines(
-              $line - $this->sourceContext,
-              $line + $this->sourceContext,
-              $line
-            )
-          )
-        );
-        $this->project->addReport($report);
-      }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'ExceptionEmptyCatchBlock';
     }
-  }
 
-  public function leaveNode(Node $node) {
-  }
+    /**
+     * @param Project $project
+     */
+    public function analyze(Project $project)
+    {
+        $this->project = $project;
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($this);
+        foreach ($project->getFiles() as $file) {
+            $this->currentFile = $file;
+            $traverser->traverse($file->getTree());
+        }
+    }
 
-  public function afterTraverse(array $nodes) {
-  }
+    public function beforeTraverse(array $nodes)
+    {
+    }
+
+    /**
+     * Called when entering a node.
+     *
+     * Return value semantics:
+     *  * null:      $node stays as-is
+     *  * otherwise: $node is set to the return value
+     *
+     * @param Node $node Node
+     *
+     * @return null|Node Node
+     */
+    public function enterNode(Node $node)
+    {
+        if ($node instanceof Node\Stmt\Catch_) {
+            $this->subNodeTraverser->traverse($node->stmts);
+            $nonComments = $this->nonCommentCounterVisitor->getNonCommentStatements();
+            if (0 === $nonComments) {
+                $report = new StringReport('Empty catch block found');
+                $line = $node->getAttribute('startLine') - 1;
+                $report->setSourceFragment(
+                    new SourceFragment(
+                        $this->currentFile,
+                        new Lines(
+                            $line - $this->sourceContext,
+                            $line + $this->sourceContext,
+                            $line
+                        )
+                    )
+                );
+                $this->project->addReport($report);
+            }
+        }
+    }
+
+    public function leaveNode(Node $node)
+    {
+    }
+
+    public function afterTraverse(array $nodes)
+    {
+    }
 }

@@ -51,148 +51,158 @@ use PhpParser\NodeVisitor;
  *   the warnings are always generated which limits its usefulness.
  * - does not support nested `conditions`
  */
-class QueryConditionVariables extends Analyzer implements NodeVisitor {
+class QueryConditionVariables extends Analyzer implements NodeVisitor
+{
 
-  /** @var File */
-  private $currentFile = NULL;
-  /** @var Project */
-  private $project = NULL;
-  /** @var NodeTraverser */
-  private $subNodeTraverser = NULL;
-  /** @var Variables */
-  private $variablesVisitor = NULL;
-  /** @var Variable[] */
-  private $variables = NULL;
+    /** @var File */
+    private $currentFile = null;
+    /** @var Project */
+    private $project = null;
+    /** @var NodeTraverser */
+    private $subNodeTraverser = null;
+    /** @var Variables */
+    private $variablesVisitor = null;
+    /** @var Variable[] */
+    private $variables = null;
 
-  public function __construct() {
-    $this->setSeverity(Severity::WARNING);
-    $this->subNodeTraverser = new NodeTraverser();
-    $this->variablesVisitor = new Variables();
-    $this->subNodeTraverser->addVisitor($this->variablesVisitor);
-  }
-
-  /**
-   * @return string
-   */
-  public function getName() {
-    return 'CakePHP2 QueryConditionVariables';
-  }
-
-  /**
-   * @param Project $project
-   */
-  public function analyze(Project $project) {
-    $this->project = $project;
-    $traverser = new NodeTraverser();
-    $traverser->addVisitor($this);
-    foreach ($project->getFiles() as $file) {
-      $this->currentFile = $file;
-      $traverser->traverse($file->getTree());
-      foreach ($this->variables as $variable) {
-        $report = new StringReport(
-          'Variable used in constructing raw SQL, is it escaped?');
-        $line = $variable->getAttribute('startLine') - 1;
-        $report->setSourceFragment(
-          new SourceFragment(
-            $file,
-            new Lines(
-              $line - $this->sourceContext,
-              $line + $this->sourceContext,
-              $line
-            )
-          )
-        );
-        $project->addReport($report);
-      }
+    public function __construct()
+    {
+        $this->setSeverity(Severity::WARNING);
+        $this->subNodeTraverser = new NodeTraverser();
+        $this->variablesVisitor = new Variables();
+        $this->subNodeTraverser->addVisitor($this->variablesVisitor);
     }
-  }
 
-  /**
-   * Called once before traversal.
-   *
-   * Return value semantics:
-   *  * null:      $nodes stays as-is
-   *  * otherwise: $nodes is set to the return value
-   *
-   * @param Node[] $nodes Array of nodes
-   *
-   * @return null|Node[] Array of nodes
-   */
-  public function beforeTraverse(array $nodes) {
-    $this->variables = [];
-  }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'CakePHP2 QueryConditionVariables';
+    }
 
-  /**
-   * Called when entering a node.
-   *
-   * Return value semantics:
-   *  * null:      $node stays as-is
-   *  * otherwise: $node is set to the return value
-   *
-   * @param Node $node Node
-   *
-   * @return null|Node Node
-   */
-  public function enterNode(Node $node) {
-    if ($node instanceof Node\Expr\ArrayItem) {
-      $key = $node->key;
-      $value = $node->value;
-      if (
-        $key instanceof Node\Scalar\String
-        &&
-        $key->value === 'conditions'
-        &&
-        $value instanceof Node\Expr\Array_
-      ) {
-        foreach ($value->items as $item) {
-          if (NULL !== $item->key) {
-            continue;
-          }
-          $value = $item->value;
-          if (!($value instanceof Node\Expr\BinaryOp\Concat)) {
-            continue;
-          }
-          $this->subNodeTraverser->traverse([$value]);
-          $this->variables = array_merge(
-            $this->variables,
-            $this->variablesVisitor->getVariables()
-          );
+    /**
+     * @param Project $project
+     */
+    public function analyze(Project $project)
+    {
+        $this->project = $project;
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($this);
+        foreach ($project->getFiles() as $file) {
+            $this->currentFile = $file;
+            $traverser->traverse($file->getTree());
+            foreach ($this->variables as $variable) {
+                $report = new StringReport(
+                    'Variable used in constructing raw SQL, is it escaped?');
+                $line = $variable->getAttribute('startLine') - 1;
+                $report->setSourceFragment(
+                    new SourceFragment(
+                        $file,
+                        new Lines(
+                            $line - $this->sourceContext,
+                            $line + $this->sourceContext,
+                            $line
+                        )
+                    )
+                );
+                $project->addReport($report);
+            }
         }
-      }
     }
-  }
 
-  /**
-   * Called when leaving a node.
-   *
-   * Return value semantics:
-   *  * null:      $node stays as-is
-   *  * false:     $node is removed from the parent array
-   *  * array:     The return value is merged into the parent array (at the position of the $node)
-   *  * otherwise: $node is set to the return value
-   *
-   * @param Node $node Node
-   *
-   * @return null|Node|false|Node[] Node
-   */
-  public
-  function leaveNode(Node $node) {
-    // TODO: Implement leaveNode() method.
-  }
+    /**
+     * Called once before traversal.
+     *
+     * Return value semantics:
+     *  * null:      $nodes stays as-is
+     *  * otherwise: $nodes is set to the return value
+     *
+     * @param Node[] $nodes Array of nodes
+     *
+     * @return null|Node[] Array of nodes
+     */
+    public function beforeTraverse(array $nodes)
+    {
+        $this->variables = [];
+    }
 
-  /**
-   * Called once after traversal.
-   *
-   * Return value semantics:
-   *  * null:      $nodes stays as-is
-   *  * otherwise: $nodes is set to the return value
-   *
-   * @param Node[] $nodes Array of nodes
-   *
-   * @return null|Node[] Array of nodes
-   */
-  public
-  function afterTraverse(array $nodes) {
-    // TODO: Implement afterTraverse() method.
-  }
+    /**
+     * Called when entering a node.
+     *
+     * Return value semantics:
+     *  * null:      $node stays as-is
+     *  * otherwise: $node is set to the return value
+     *
+     * @param Node $node Node
+     *
+     * @return null|Node Node
+     */
+    public function enterNode(Node $node)
+    {
+        if ($node instanceof Node\Expr\ArrayItem) {
+            $key = $node->key;
+            $value = $node->value;
+            if (
+                $key instanceof Node\Scalar\String
+                &&
+                $key->value === 'conditions'
+                &&
+                $value instanceof Node\Expr\Array_
+            ) {
+                foreach ($value->items as $item) {
+                    if (null !== $item->key) {
+                        continue;
+                    }
+                    $value = $item->value;
+                    if (!($value instanceof Node\Expr\BinaryOp\Concat)) {
+                        continue;
+                    }
+                    $this->subNodeTraverser->traverse([$value]);
+                    $this->variables = array_merge(
+                        $this->variables,
+                        $this->variablesVisitor->getVariables()
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Called when leaving a node.
+     *
+     * Return value semantics:
+     *  * null:      $node stays as-is
+     *  * false:     $node is removed from the parent array
+     *  * array:     The return value is merged into the parent array (at the position of the $node)
+     *  * otherwise: $node is set to the return value
+     *
+     * @param Node $node Node
+     *
+     * @return null|Node|false|Node[] Node
+     */
+    public
+    function leaveNode(
+        Node $node
+    ) {
+        // TODO: Implement leaveNode() method.
+    }
+
+    /**
+     * Called once after traversal.
+     *
+     * Return value semantics:
+     *  * null:      $nodes stays as-is
+     *  * otherwise: $nodes is set to the return value
+     *
+     * @param Node[] $nodes Array of nodes
+     *
+     * @return null|Node[] Array of nodes
+     */
+    public
+    function afterTraverse(
+        array $nodes
+    ) {
+        // TODO: Implement afterTraverse() method.
+    }
 }

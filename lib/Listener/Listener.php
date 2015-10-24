@@ -28,15 +28,16 @@ use Mfn\PHP\Analyzer\Analyzers\Analyzer;
 use Mfn\PHP\Analyzer\Project;
 use Mfn\PHP\Analyzer\Report\AnalyzerReport;
 
-interface Listener {
+interface Listener
+{
 
-  public function projectStart(Project $project);
+    public function projectStart(Project $project);
 
-  public function projectEnd(Project $project);
+    public function projectEnd(Project $project);
 
-  public function beforeAnalyzer(Analyzer $analyzer);
+    public function beforeAnalyzer(Analyzer $analyzer);
 
-  public function afterAnalyzer(Analyzer $analyzer);
+    public function afterAnalyzer(Analyzer $analyzer);
 
-  public function addReport(AnalyzerReport $analyzerReport);
+    public function addReport(AnalyzerReport $analyzerReport);
 }

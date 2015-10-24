@@ -43,15 +43,15 @@ $objectGraph = new ObjectGraph();
 
 /** @return \Mfn\PHP\Analyzer\Analyzers\Analyzer[] */
 return [
-  new Parser(new \PhpParser\Parser(new Lexer())),
-  new NameResolver(),
-  $objectGraph,
-  new ReflectInternals($objectGraph),
-  new AbstractMissing($objectGraph),
-  new InterfaceMissing($objectGraph),
-  new MethodCompatibility($objectGraph),
-  new InterfaceMethodAbstract($objectGraph),
-  new DynamicClassInstantiation(),
-  new QueryConditionVariables(),
-  new ExceptionEmptyCatch(),
+    new Parser(new \PhpParser\Parser(new Lexer())),
+    new NameResolver(),
+    $objectGraph,
+    new ReflectInternals($objectGraph),
+    new AbstractMissing($objectGraph),
+    new InterfaceMissing($objectGraph),
+    new MethodCompatibility($objectGraph),
+    new InterfaceMethodAbstract($objectGraph),
+    new DynamicClassInstantiation(),
+    new QueryConditionVariables(),
+    new ExceptionEmptyCatch(),
 ];

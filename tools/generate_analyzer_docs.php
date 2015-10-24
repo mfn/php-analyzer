@@ -47,17 +47,17 @@ $projectRealPath = realpath(__DIR__ . DIRECTORY_SEPARATOR . '..');
 $project = new Project(new Stdout());
 $project->addSplFileInfos(Util::scanDir(__DIR__ . '/../lib/'));
 $project->addAnalyzers([
-  new Parser(new \PhpParser\Parser(new Lexer())),
-  new NameResolver(),
-  $objectGraph = new ObjectGraph()
+    new Parser(new \PhpParser\Parser(new Lexer())),
+    new NameResolver(),
+    $objectGraph = new ObjectGraph()
 ]);
 $project->analyze();
 
 $helper = new Helper($objectGraph);
 $className = 'Mfn\PHP\Analyzer\Analyzers\Analyzer';
 $class = $objectGraph->getClassByFqn($className);
-if (NULL === $class) {
-  throw new \RuntimeException("Unable to find class $className");
+if (null === $class) {
+    throw new \RuntimeException("Unable to find class $className");
 }
 unset($className);
 $descendants = $helper->findExtends($class, true);
@@ -68,52 +68,52 @@ $index = [];
 $index[] = '# Built-in / available Analyzers';
 $index[] = '';
 foreach ($descendants as $class) {
-  $doccomment = $class->getClass()->getDocComment();
-  if (NULL === $doccomment) {
-    continue;
-  }
-
-  $text = preg_split('/\R/', $doccomment->getReformattedText());
-  if (($len = count($text)) < 3) {
-    continue;
-  }
-
-  # Split doc comment into lines with some massaging
-  $text = array_filter(
-    array_map(
-      function ($line) { # extract content
-        return preg_replace('/^\s*\*\s?/', '', $line);
-      },
-      array_filter(
-        $text = array_slice($text, 1, $len - 2),
-        function ($line) { # only lines with actual content
-          return preg_match('/^\s*\*/', $line);
-        }
-      )
-    ),
-    function ($line) { # filter out annotations
-      return !preg_match('/^@/', $line);
+    $doccomment = $class->getClass()->getDocComment();
+    if (null === $doccomment) {
+        continue;
     }
-  );
 
-  $relClassFilname = str_replace($projectRealPath, '',
-    $class->getFile()->getSplFile()->getRealPath());
+    $text = preg_split('/\R/', $doccomment->getReformattedText());
+    if (($len = count($text)) < 3) {
+        continue;
+    }
 
-  $text = array_merge(
-    [
-      '#### Class [' . $class->getName() . '](' . $relClassFilname . ')',
-      '',
-    ],
-    $text,
-    [
-      '',
-    ]
-  );
+    # Split doc comment into lines with some massaging
+    $text = array_filter(
+        array_map(
+            function ($line) { # extract content
+                return preg_replace('/^\s*\*\s?/', '', $line);
+            },
+            array_filter(
+                $text = array_slice($text, 1, $len - 2),
+                function ($line) { # only lines with actual content
+                    return preg_match('/^\s*\*/', $line);
+                }
+            )
+        ),
+        function ($line) { # filter out annotations
+            return !preg_match('/^@/', $line);
+        }
+    );
 
-  $index = array_merge($index, $text);
+    $relClassFilname = str_replace($projectRealPath, '',
+        $class->getFile()->getSplFile()->getRealPath());
+
+    $text = array_merge(
+        [
+            '#### Class [' . $class->getName() . '](' . $relClassFilname . ')',
+            '',
+        ],
+        $text,
+        [
+            '',
+        ]
+    );
+
+    $index = array_merge($index, $text);
 }
 
 file_put_contents(
-  __DIR__ . '/../doc/analyzers.md',
-  join("\n", $index) . "\n"
+    __DIR__ . '/../doc/analyzers.md',
+    join("\n", $index) . "\n"
 );

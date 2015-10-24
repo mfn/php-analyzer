@@ -29,21 +29,25 @@ namespace Mfn\PHP\Analyzer\Logger;
  *
  * Can be useful for e.g. unit testing where we don't care about the logs.
  */
-final class Null extends ProjectLogger {
+final class Null extends ProjectLogger
+{
 
-  static private $instance = NULL;
+    static private $instance = null;
 
-  private function __construct() {
-  }
-
-  static public function getInstance() {
-    if (NULL === self::$instance) {
-      self::$instance = new self;
+    private function __construct()
+    {
     }
-    return self::$instance;
-  }
 
-  protected function realLog($level, $message, array $context = []) {
-    return NULL;
-  }
+    static public function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
+        return self::$instance;
+    }
+
+    protected function realLog($level, $message, array $context = [])
+    {
+        return null;
+    }
 }

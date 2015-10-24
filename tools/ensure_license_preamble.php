@@ -38,34 +38,34 @@ $directories = ['bin', 'lib', 'tests', 'tools'];
 /** @var \SplFileInfo[] $files */
 $files = [];
 foreach ($directories as $directory) {
-  $files = array_merge(
-    $files,
-    Util::scanDir(__DIR__ . '/../' . $directory, '/\.php(test)?$/')
-  );
+    $files = array_merge(
+        $files,
+        Util::scanDir(__DIR__ . '/../' . $directory, '/\.php(test)?$/')
+    );
 }
 
 $first = true;
 $foundMissing = false;
 foreach ($files as $file) {
-  $fp = fopen($file->getRealPath(), 'r');
-  $inspectNumLines = $maxInspectNumLines;
-  $found = false;
-  while ($inspectNumLines-- && false !== $line = fgets($fp)) {
-    if (false !== strpos($line, '* The MIT License (MIT)')) {
-      $found = true;
-      break;
+    $fp = fopen($file->getRealPath(), 'r');
+    $inspectNumLines = $maxInspectNumLines;
+    $found = false;
+    while ($inspectNumLines-- && false !== $line = fgets($fp)) {
+        if (false !== strpos($line, '* The MIT License (MIT)')) {
+            $found = true;
+            break;
+        }
     }
-  }
-  if (!$found) {
-    $foundMissing = true;
-    if ($first) {
-      $first = false;
-      echo 'Files missing license preamble:' . PHP_EOL;
+    if (!$found) {
+        $foundMissing = true;
+        if ($first) {
+            $first = false;
+            echo 'Files missing license preamble:' . PHP_EOL;
+        }
+        echo $file->getRealPath(), PHP_EOL;
     }
-    echo $file->getRealPath(), PHP_EOL;
-  }
 }
 if ($foundMissing) {
-  exit(1);
+    exit(1);
 }
 exit(0);

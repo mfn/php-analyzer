@@ -25,6 +25,7 @@
 namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 
 
-interface Interface_ extends GenericObject, HasInterfaces {
+interface Interface_ extends GenericObject, HasInterfaces
+{
 
 }
