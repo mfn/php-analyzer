@@ -1,7 +1,7 @@
 {
     "name": "mfn/php-analyzer",
     "description": "Framework for performaing static PHP code analysis",
-    "type": "ibrary",
+    "type": "library",
     "keywords": [
         "source",
         "code",
