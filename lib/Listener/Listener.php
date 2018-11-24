@@ -30,7 +30,6 @@ use Mfn\PHP\Analyzer\Report\AnalyzerReport;
 
 interface Listener
 {
-
     public function projectStart(Project $project);
 
     public function projectEnd(Project $project);

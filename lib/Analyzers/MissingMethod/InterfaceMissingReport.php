@@ -63,7 +63,6 @@ class InterfaceMissingReport extends Report
             if ($lastInterface !== $cam->getInterface()) {
                 $lastInterface = $cam->getInterface();
                 $str .= $cam->getInterface()->getName();
-
             }
             return $str . '::' . $cam->getMethod()->name . '()';
         }, $this->methods));

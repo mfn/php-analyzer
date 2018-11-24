@@ -50,7 +50,7 @@ class Helper
      * @param Interface_ $superInterface
      * @return bool
      */
-    static public function classImplements(
+    public static function classImplements(
         Class_ $class = null,
         Interface_ $superInterface
     ) {

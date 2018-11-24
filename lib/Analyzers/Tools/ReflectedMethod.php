@@ -74,7 +74,6 @@ class ReflectedMethod implements GenericMethod, Reflected
         }
         throw new \RuntimeException('Method is not part of an interface but of '
             . $this->object->getKind() . ' instead');
-
     }
 
     /**
@@ -87,6 +86,5 @@ class ReflectedMethod implements GenericMethod, Reflected
         }
         throw new \RuntimeException('Method is not part of a class but of '
             . $this->object->getKind() . ' instead');
-
     }
 }

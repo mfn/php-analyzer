@@ -108,9 +108,10 @@ class ParsedClass extends ParsedObject implements Class_
     public function getMethods()
     {
         if (null === $this->methods) {
-            $this->methods = array_map(function (ClassMethod $method) {
-                return new ParsedMethod($this, $method);
-            },
+            $this->methods = array_map(
+                function (ClassMethod $method) {
+                    return new ParsedMethod($this, $method);
+                },
                 $this->node->getMethods()
             );
         }

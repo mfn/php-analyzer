@@ -44,7 +44,8 @@ class Report extends \Mfn\PHP\Analyzer\Report\Report
 
     public function report()
     {
-        return sprintf('Declaration of %s::%s must be compatible with %s::%s',
+        return sprintf(
+            'Declaration of %s::%s must be compatible with %s::%s',
             $this->uberType->getInterface()->getName(),
             $this->uberType->getNameAndParamsSignature(),
             $this->subType->getInterface()->getName(),

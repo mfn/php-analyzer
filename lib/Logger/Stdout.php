@@ -26,7 +26,6 @@ namespace Mfn\PHP\Analyzer\Logger;
 
 class Stdout extends FilePointer
 {
-
     public function __construct()
     {
         if (!defined('STDOUT')) {

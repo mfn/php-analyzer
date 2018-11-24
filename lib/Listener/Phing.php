@@ -75,8 +75,10 @@ class Phing implements Listener
 
     public function beforeAnalyzer(Analyzer $analyzer)
     {
-        $this->task->log('Running analyzer ' . $analyzer->getName(),
-            \Project::MSG_VERBOSE);
+        $this->task->log(
+            'Running analyzer ' . $analyzer->getName(),
+            \Project::MSG_VERBOSE
+        );
     }
 
     public function afterAnalyzer(Analyzer $analyzer)
@@ -122,11 +124,12 @@ class Phing implements Listener
      * @param AnalyzerReport $analyzerReport
      * @return string
      */
-    static private function formatReport(AnalyzerReport $analyzerReport)
+    private static function formatReport(AnalyzerReport $analyzerReport)
     {
         $timestampedReport = $analyzerReport->getTimestampedReport();
         $report = $timestampedReport->getReport();
-        $message = sprintf('[%s] %s' . PHP_EOL,
+        $message = sprintf(
+            '[%s] %s' . PHP_EOL,
             $analyzerReport->getAnalyzer()->getName(),
             $report->report()
         );
@@ -141,7 +144,7 @@ class Phing implements Listener
      * @param int $severity
      * @return int
      */
-    static private function severityToPhingLevel($severity)
+    private static function severityToPhingLevel($severity)
     {
         switch ($severity) {
             case Severity::ERROR:

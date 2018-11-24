@@ -30,5 +30,4 @@ namespace Mfn\PHP\Analyzer\Analyzers\Tools;
  */
 interface Parsed
 {
-
 }

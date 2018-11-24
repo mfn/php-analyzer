@@ -37,7 +37,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
         $this->reflectionClass = $class;
     }
 
-    static public function createFromReflectionClass(\ReflectionClass $class)
+    public static function createFromReflectionClass(\ReflectionClass $class)
     {
         if ($class->isInterface()) {
             return new ReflectedInterface($class);

@@ -24,7 +24,6 @@
  */
 namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 
-
 interface HasInterfaces
 {
 
@@ -43,5 +42,4 @@ interface HasInterfaces
      * @return string[]
      */
     public function getInterfaceNames();
-
 }

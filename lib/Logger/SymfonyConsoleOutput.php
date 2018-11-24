@@ -54,7 +54,8 @@ class SymfonyConsoleOutput extends ProjectLogger
     {
         $message = self::interpolateContext($message, $context);
         $this->output->writeln(
-            sprintf('[%s] %s',
+            sprintf(
+                '[%s] %s',
                 self::levelToString($level),
                 $message
             ),

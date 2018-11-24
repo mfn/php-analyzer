@@ -34,7 +34,6 @@ use Mfn\PHP\Analyzer\Report\Formatter\Plain as PlainFormatter;
  */
 class Plain extends FilePointerWriter
 {
-
     public function addReport(AnalyzerReport $analyzerReport)
     {
         $this->write(PlainFormatter::formatReportReadable($analyzerReport));

@@ -37,7 +37,8 @@ abstract class FilePointerWriter implements Listener
     {
         if (!is_resource($fd)) {
             throw new \InvalidArgumentException(
-                'Argument $fd must be of type resource, ' . gettype($fd) . ' given');
+                'Argument $fd must be of type resource, ' . gettype($fd) . ' given'
+            );
         }
         $this->fd = $fd;
     }

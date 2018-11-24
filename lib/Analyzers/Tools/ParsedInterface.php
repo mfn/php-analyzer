@@ -90,9 +90,10 @@ class ParsedInterface extends ParsedObject implements Interface_
     public function getMethods()
     {
         if (null === $this->methods) {
-            $this->methods = array_map(function (ClassMethod $method) {
-                return new ParsedMethod($this, $method);
-            },
+            $this->methods = array_map(
+                function (ClassMethod $method) {
+                    return new ParsedMethod($this, $method);
+                },
                 array_filter(
                     $this->node->stmts,
                     function ($stmt) {

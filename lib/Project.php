@@ -89,7 +89,7 @@ class Project
      *
      * @return Analyzer[]
      */
-    static public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
             . 'res/defaultAnalyzerConfiguration.php';
@@ -153,7 +153,8 @@ class Project
     {
         if (!($this->currentAnalyzer instanceof Analyzer)) {
             throw new \RuntimeException(
-                'Only reports with a currently active Analyzer can be added');
+                'Only reports with a currently active Analyzer can be added'
+            );
         }
         # store in $this->reports ; grouped by Analyzer
         $reports = [];

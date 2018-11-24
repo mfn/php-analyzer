@@ -64,7 +64,8 @@ class PhingTask extends \Task
     {
         if (!is_bool($haltonerror)) {
             throw new \InvalidArgumentException(
-                'Attribute haltonerror is a boolean attribute and requires true/false');
+                'Attribute haltonerror is a boolean attribute and requires true/false'
+            );
         }
         $this->haltonerror = $haltonerror;
     }
@@ -84,7 +85,8 @@ class PhingTask extends \Task
     {
         if (!is_bool($haltonwarning)) {
             throw new \InvalidArgumentException(
-                'Attribute haltonwarning is a boolean attribute and requires true/false');
+                'Attribute haltonwarning is a boolean attribute and requires true/false'
+            );
         }
         $this->haltonwarning = $haltonwarning;
     }
@@ -100,7 +102,9 @@ class PhingTask extends \Task
         if (empty($dateTimezone)) {
             date_default_timezone_set('UTC');
             $this->log(
-                'date.timezone not set, falling back to UTC', \Project::MSG_WARN);
+                'date.timezone not set, falling back to UTC',
+                \Project::MSG_WARN
+            );
         }
     }
 
@@ -191,5 +195,4 @@ class PhingTask extends \Task
         $this->logFormat = $logFormat;
         return $this;
     }
-
 }

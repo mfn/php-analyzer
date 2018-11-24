@@ -31,14 +31,13 @@ namespace Mfn\PHP\Analyzer\Logger;
  */
 final class NullLogger extends ProjectLogger
 {
-
-    static private $instance = null;
+    private static $instance = null;
 
     private function __construct()
     {
     }
 
-    static public function getInstance()
+    public static function getInstance()
     {
         if (null === self::$instance) {
             self::$instance = new self;

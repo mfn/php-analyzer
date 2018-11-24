@@ -29,7 +29,6 @@ namespace Mfn\PHP\Analyzer\Report;
  */
 class StringReport extends Report
 {
-
     protected $message = '';
 
     /**

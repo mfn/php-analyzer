@@ -84,7 +84,8 @@ class AbstractMissing extends Analyzer
                         $methodName = $method->getNormalizedName();
                         # now find all descendant classes and see if they've implemented it
                         $classesMissingMethod =
-                            $this->findSubtypeUntilMethodMatchesRecursive($methodName,
+                            $this->findSubtypeUntilMethodMatchesRecursive(
+                                $methodName,
                                 $this->helper->findExtends($object)
                             );
                         # in case we found ones, store them for reporting later
@@ -103,7 +104,8 @@ class AbstractMissing extends Analyzer
         }
         /** @var ParsedClass $class */
         foreach ($classesMissingMethods->keys() as $class) {
-            $project->addReport(new AbstractMissingReport(
+            $project->addReport(
+                new AbstractMissingReport(
                     $class,
                     $classesMissingMethods->get($class)
                 )
@@ -126,7 +128,6 @@ class AbstractMissing extends Analyzer
     {
         $classesMissingMethod = [];
         foreach ($classes as $class) {
-
             $foundMethod = false;
             foreach ($class->getMethods() as $method) {
                 if ($methodName === $method->getNormalizedName()) {

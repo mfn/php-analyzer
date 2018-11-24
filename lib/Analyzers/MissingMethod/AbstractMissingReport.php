@@ -79,7 +79,6 @@ class AbstractMissingReport extends Report
                     return
                         $cam->getClass()->getName() . '::' .
                         $cam->getMethod()->name . '()';
-
                 },
                 $this->methods
             )

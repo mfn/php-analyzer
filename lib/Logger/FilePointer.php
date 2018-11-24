@@ -42,7 +42,8 @@ class FilePointer extends ProjectLogger
     {
         if (!is_resource($fd)) {
             throw new \InvalidArgumentException(
-                'Argument $fp must be of type resource, ' . gettype($fd) . ' given');
+                'Argument $fp must be of type resource, ' . gettype($fd) . ' given'
+            );
         }
         $this->fd = $fd;
     }
@@ -50,8 +51,10 @@ class FilePointer extends ProjectLogger
     protected function realLog($level, $message, array $context = [])
     {
         $message = self::interpolateContext($message, $context);
-        fwrite($this->fd,
-            sprintf('[%s] %s' . PHP_EOL,
+        fwrite(
+            $this->fd,
+            sprintf(
+                '[%s] %s' . PHP_EOL,
                 self::levelToString($level),
                 $message
             )

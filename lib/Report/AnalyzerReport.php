@@ -85,5 +85,4 @@ class AnalyzerReport extends Report
             'analyzer' => $this->analyzer->getName(),
         ] + $this->report->toArray();
     }
-
 }

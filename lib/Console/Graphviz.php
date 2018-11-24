@@ -40,13 +40,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Graphviz extends Command
 {
-
     protected function configure()
     {
         $this
             ->setName('graphviz')
             ->setDescription(
-                'Generate class relationship diagram for graphviz (.dot file)')
+                'Generate class relationship diagram for graphviz (.dot file)'
+            )
             ->addOption(
                 'namespaces',
                 null,

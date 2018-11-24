@@ -56,7 +56,7 @@ class MethodSignatureCompare
      * @param ClassMethod $method
      * @return string
      */
-    static public function generateMethodSignature(ClassMethod $method)
+    public static function generateMethodSignature(ClassMethod $method)
     {
         $params = [];
         foreach ($method->params as $param) {
@@ -65,7 +65,7 @@ class MethodSignatureCompare
         return join(', ', $params);
     }
 
-    static public function generateParamSignature(Param $param)
+    public static function generateParamSignature(Param $param)
     {
         $names = [];
         if (isset($param->type)) {

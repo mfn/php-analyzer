@@ -104,7 +104,8 @@ class InterfaceMissing extends Analyzer
         }
         /** @var ParsedClass $class */
         foreach ($classesMissingMethods->keys() as $class) {
-            $project->addReport(new InterfaceMissingReport(
+            $project->addReport(
+                new InterfaceMissingReport(
                     $class,
                     $classesMissingMethods->get($class)
                 )
@@ -143,13 +144,14 @@ class InterfaceMissing extends Analyzer
                 continue;
             } else {
                 if ($object instanceof ParsedClass) {
-
                     $methodName = $interfaceMethod->getNormalizedName();
 
                     # check if any parent implements the interface method
                     if (
-                        Helper::classImplements($object->getParent(),
-                            $interfaceMethod->getInterface())
+                        Helper::classImplements(
+                            $object->getParent(),
+                            $interfaceMethod->getInterface()
+                        )
                         ||
                         self::classHasParentMethod($object->getParent(), $methodName)
                     ) {

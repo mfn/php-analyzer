@@ -88,7 +88,8 @@ class Plain implements Formatter
             if ($highlightLine === $lineNr) {
                 $separate = ' ->';
             }
-            $source .= sprintf("  %" . $lineNrLength . "s%s %s" . PHP_EOL,
+            $source .= sprintf(
+                "  %" . $lineNrLength . "s%s %s" . PHP_EOL,
                 $lineNr + 1,
                 $separate,
                 rtrim($line) # normalize EOL
@@ -103,7 +104,8 @@ class Plain implements Formatter
      */
     public function formatReports(array $reports)
     {
-        return join('',
+        return join(
+            '',
             array_map(
                 function (Report $report) {
                     return self::formatReportReadable($report) . PHP_EOL;

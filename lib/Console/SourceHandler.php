@@ -40,16 +40,23 @@ class SourceHandler
     /** @var \SplFileInfo[] */
     protected $splFiles = [];
 
-    static public function configure(Command $command)
+    public static function configure(Command $command)
     {
         $command
-            ->addOption('load-from', null, InputOption::VALUE_REQUIRED,
-                'Additional file with list of files/directories to scan.')
-            ->addArgument('sources', InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-                'Files/directories to scan');
+            ->addOption(
+                'load-from',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Additional file with list of files/directories to scan.'
+            )
+            ->addArgument(
+                'sources',
+                InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+                'Files/directories to scan'
+            );
     }
 
-    static public function addSourcesToProject(InputInterface $input, Project $project)
+    public static function addSourcesToProject(InputInterface $input, Project $project)
     {
         $inputSources = [];
         if (null !== $input->getOption('load-from')) {
@@ -79,7 +86,8 @@ class SourceHandler
                     $files[] = new \SplFileInfo($inputSource);
                 } else {
                     throw new \RuntimeException(
-                        "File $inputSource is not a file nor a directory.");
+                        "File $inputSource is not a file nor a directory."
+                    );
                 }
             }
         }

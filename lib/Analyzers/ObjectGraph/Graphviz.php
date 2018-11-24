@@ -120,7 +120,8 @@ class Graphviz
             $shape = $object instanceof Interface_ ? 'shape=diamond' : '';
 
             # we add them by their index to be able to remove them if showOnlyConnected
-            $nodes[$index] = sprintf('%d [ label = "%s"; %s ]',
+            $nodes[$index] = sprintf(
+                '%d [ label = "%s"; %s ]',
                 $index,
                 $this->showNamespace
                     ? str_replace('\\', '\\\\', $object->getName())
@@ -141,7 +142,6 @@ class Graphviz
                         $addEdge($index, $pos);
                     }
                 }
-
             } else {
                 if ($object instanceof ParsedInterface) {
                     $fqExtends = $object->getInterfaceNames();
@@ -150,7 +150,6 @@ class Graphviz
                             $addEdge($index, $pos);
                         }
                     }
-
                 } else {
                     throw new \RuntimeException('Unsupported object ' . get_class($object));
                 }
@@ -174,7 +173,8 @@ class Graphviz
 
             # Remove clusters without nodes; this can happen due showOnlyConnected
             foreach ($clusters as $clusterName => &$clusterData) {
-                $clusterNodes = array_filter($clusterData['nodes'],
+                $clusterNodes = array_filter(
+                    $clusterData['nodes'],
                     function ($node) use ($nodes) {
                         return isset($nodes[$node]);
                     }

@@ -42,7 +42,8 @@ class FileParserErrorReport extends StringReport
     {
         $this->file = $file;
         $this->error = $error;
-        $this->message = sprintf('%s in %s',
+        $this->message = sprintf(
+            '%s in %s',
             $this->error->getMessage(),
             $this->file->getRealPath()
         );

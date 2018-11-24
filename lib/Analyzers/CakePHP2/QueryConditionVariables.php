@@ -94,7 +94,8 @@ class QueryConditionVariables extends Analyzer implements NodeVisitor
             $traverser->traverse($file->getTree());
             foreach ($this->variables as $variable) {
                 $report = new StringReport(
-                    'Variable used in constructing raw SQL, is it escaped?');
+                    'Variable used in constructing raw SQL, is it escaped?'
+                );
                 $line = $variable->getAttribute('startLine') - 1;
                 $report->setSourceFragment(
                     new SourceFragment(
@@ -181,8 +182,7 @@ class QueryConditionVariables extends Analyzer implements NodeVisitor
      *
      * @return null|Node|false|Node[] Node
      */
-    public
-    function leaveNode(
+    public function leaveNode(
         Node $node
     ) {
         // TODO: Implement leaveNode() method.
@@ -199,8 +199,7 @@ class QueryConditionVariables extends Analyzer implements NodeVisitor
      *
      * @return null|Node[] Array of nodes
      */
-    public
-    function afterTraverse(
+    public function afterTraverse(
         array $nodes
     ) {
         // TODO: Implement afterTraverse() method.

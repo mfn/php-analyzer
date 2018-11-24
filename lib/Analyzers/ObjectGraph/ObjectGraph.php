@@ -108,9 +108,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     public function resolveGraph()
     {
         foreach ($this->objects as $fqn => $object) {
-
             if ($object instanceof ParsedClass) {
-
                 $fqExtends = $object->getFqExtends();
                 if (null !== $fqExtends) {
                     $extends = $this->getClassByFqnInRelation($object, $fqExtends);
@@ -124,20 +122,16 @@ class ObjectGraph extends Analyzer implements NodeVisitor
                         $object->addInterface($implements);
                     }
                 }
-
             } else {
                 if ($object instanceof ParsedInterface) {
-
                     foreach ($object->getInterfaceNames() as $fqExtends) {
                         $extends = $this->getInterfaceByFqnInRelation($object, $fqExtends);
                         if (null !== $extends) {
                             $object->addInterface($extends);
                         }
                     }
-
                 } else {
                     if ($object instanceof ReflectedClass) {
-
                         $class = $object->getReflectionClass();
 
                         if (false !== $parent = $class->getParentClass()) {
@@ -149,20 +143,18 @@ class ObjectGraph extends Analyzer implements NodeVisitor
                             $implements = $this->getInterfaceByFqnInRelation($object, $fqImplements);
                             $object->addInterface($implements);
                         }
-
                     } else {
                         if ($object instanceof ReflectedInterface) {
-
                             $interface = $object->getReflectionClass();
 
                             foreach ($interface->getInterfaceNames() as $fqExtends) {
                                 $extends = $this->getInterfaceByFqnInRelation($object, $fqExtends);
                                 $object->addInterface($extends);
                             }
-
                         } else {
                             throw new \RuntimeException(
-                                'Unsupported object of type ' . get_class($object));
+                                'Unsupported object of type ' . get_class($object)
+                            );
                         }
                     }
                 }
@@ -347,7 +339,6 @@ class ObjectGraph extends Analyzer implements NodeVisitor
                 }
             }
         }
-
     }
 
     /**
@@ -452,7 +443,8 @@ class ObjectAlreadyExistsException extends \RuntimeException
     {
         $this->object = $object;
         parent::__construct(
-            'Object with fqn ' . $object->getName() . ' already exists');
+            'Object with fqn ' . $object->getName() . ' already exists'
+        );
     }
 
     /**

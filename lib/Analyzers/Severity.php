@@ -29,7 +29,6 @@ namespace Mfn\PHP\Analyzer\Analyzers;
  */
 abstract class Severity
 {
-
     const ERROR = 1;
     const WARNING = 2;
 
@@ -37,7 +36,7 @@ abstract class Severity
      * @param integer $level
      * @return string
      */
-    static public function toString($level)
+    public static function toString($level)
     {
         switch ($level) {
             case self::ERROR:

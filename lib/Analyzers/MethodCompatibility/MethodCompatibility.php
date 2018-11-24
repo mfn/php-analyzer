@@ -122,8 +122,10 @@ class MethodCompatibility extends Analyzer
             }
             $mismatchedMethods = array_merge(
                 $mismatchedMethods,
-                $this->checkInterfaceMethods($methodCompareTo,
-                    $this->helper->findInterfaceImplements($interface))
+                $this->checkInterfaceMethods(
+                    $methodCompareTo,
+                    $this->helper->findInterfaceImplements($interface)
+                )
             );
         }
         return $mismatchedMethods;

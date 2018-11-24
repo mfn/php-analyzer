@@ -70,7 +70,7 @@ abstract class Logger implements LoggerInterface
      * @param array $context
      * @return string
      */
-    static public function interpolateContext($msg, array $context)
+    public static function interpolateContext($msg, array $context)
     {
         if (!preg_match_all('/{([A-Za-z0-9_.]+)}/', $msg, $matches)) {
             return $msg;
@@ -131,7 +131,7 @@ abstract class Logger implements LoggerInterface
      * @param string $level
      * @return int
      */
-    static public function levelToInt($level)
+    public static function levelToInt($level)
     {
         switch ($level) {
             case LogLevel::DEBUG:
@@ -158,7 +158,7 @@ abstract class Logger implements LoggerInterface
      * @param integer $level
      * @return string
      */
-    static public function levelToString($level)
+    public static function levelToString($level)
     {
         switch ($level) {
             case self::DEBUG:

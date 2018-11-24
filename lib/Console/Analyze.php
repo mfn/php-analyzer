@@ -37,19 +37,30 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Analyze extends Command
 {
-
     protected function configure()
     {
         $this
             ->setName('analyze')
             ->setDescription('Run the analyzer on the provided sources')
-            ->addOption('report', null, InputOption::VALUE_REQUIRED,
-                'Write report to file (stdout otherwise)')
-            ->addOption('format', null, InputOption::VALUE_REQUIRED,
-                'Format of the report file: "plain" (default), "json" or "json-pretty"')
-            ->addOption('config', null, InputOption::VALUE_REQUIRED,
+            ->addOption(
+                'report',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Write report to file (stdout otherwise)'
+            )
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Format of the report file: "plain" (default), "json" or "json-pretty"'
+            )
+            ->addOption(
+                'config',
+                null,
+                InputOption::VALUE_REQUIRED,
                 'Load configuration of analyzers from this file. This is expected to be '
-                . 'a plain PHP file which returns an array of Analyzers.');
+                . 'a plain PHP file which returns an array of Analyzers.'
+            );
         SourceHandler::configure($this);
     }
 
@@ -82,7 +93,6 @@ class Analyze extends Command
         # Configure listener
         $listener = null;
         if (null !== $input->getOption('report')) {
-
             $format = null === $input->getOption('format')
                 ? 'plain'
                 : $input->getOption('format');
@@ -101,7 +111,6 @@ class Analyze extends Command
                     throw new \RuntimeException("Unsupported report format '$format'");
                 }
             }
-
         } else {
             if (!$input->getOption('quiet')) {
                 $listener = new Plain(\STDOUT);
