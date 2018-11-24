@@ -29,7 +29,7 @@ namespace Mfn\PHP\Analyzer\Logger;
  *
  * Can be useful for e.g. unit testing where we don't care about the logs.
  */
-final class Null extends ProjectLogger
+final class NullLogger extends ProjectLogger
 {
 
     static private $instance = null;

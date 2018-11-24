@@ -35,7 +35,7 @@ use Mfn\PHP\Analyzer\Analyzers\NameResolver;
 use Mfn\PHP\Analyzer\Analyzers\ObjectGraph\ObjectGraph;
 use Mfn\PHP\Analyzer\Analyzers\ObjectGraph\ReflectInternals;
 use Mfn\PHP\Analyzer\Analyzers\Parser;
-use Mfn\PHP\Analyzer\Logger\Null;
+use Mfn\PHP\Analyzer\Logger\NullLogger;
 use Mfn\PHP\Analyzer\Util\Util;
 use PhpParser\Lexer;
 
@@ -48,7 +48,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->project = new Project(Null::getInstance());
+        $this->project = new Project(NullLogger::getInstance());
         $this->project->addAnalyzer(new Parser(new \PhpParser\Parser(new Lexer())));
         $this->project->addAnalyzer(new NameResolver());
         $this->graph = new ObjectGraph();
@@ -141,7 +141,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
 
     public function testDynamicClassInstantiation()
     {
-        $project = new Project(Null::getInstance());
+        $project = new Project(NullLogger::getInstance());
         $project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('003_dynamic_class_instantiation'))
         );
@@ -158,7 +158,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
 
     public function testCakePHP2ConditionVariables()
     {
-        $project = new Project(Null::getInstance());
+        $project = new Project(NullLogger::getInstance());
         $project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('002_cakephp2_condition_variables'))
         );
@@ -221,7 +221,7 @@ class AnalyzerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAllAnalyzers()
     {
-        $project = new Project(Null::getInstance());
+        $project = new Project(NullLogger::getInstance());
         foreach (Util::scanDir(self::getAnalyzerTestsDir(), '/\.phptest$/') as $file) {
             $project->addSplFileInfo(new \SplFileInfo($file));
         }
