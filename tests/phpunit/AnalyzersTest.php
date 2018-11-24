@@ -201,7 +201,7 @@ class AnalyzersTest extends TestCase
     {
         $project = new Project(NullLogger::getInstance());
         foreach (Util::scanDir(self::getAnalyzerTestsDir(), '/\.phptest$/') as $file) {
-            $project->addSplFileInfo(new \SplFileInfo($file));
+            $project->addSplFileInfo(new \SplFileInfo((string) $file));
         }
         $project->addAnalyzers(Project::getDefaultConfig());
         $project->analyze();
