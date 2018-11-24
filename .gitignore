@@ -1,3 +1,4 @@
-composer.lock
-php.ini
-tmp/
+/composer.lock
+/php.ini
+/tmp/
+/vendor/
