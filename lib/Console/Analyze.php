@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Mfn\PHP\Analyzer\Console;
 
 use Mfn\PHP\Analyzer\Listener\Json;

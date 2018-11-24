@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Mfn\PHP\Analyzer\Report\Formatter;
 
 use Mfn\PHP\Analyzer\Report\Report;

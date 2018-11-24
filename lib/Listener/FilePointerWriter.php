@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Mfn\PHP\Analyzer\Listener;
 
 abstract class FilePointerWriter implements Listener

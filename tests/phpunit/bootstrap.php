@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 use Mfn\PHP\Analyzer\Util\Util;
 
 # Fall back to UTC if date.timezone is not set

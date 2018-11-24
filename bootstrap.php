@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 use Mfn\PHP\Analyzer\Util\Util;
 
 # Try to locate composer autoloader

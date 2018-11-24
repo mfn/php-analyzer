@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Mfn\PHP\Analyzer\Analyzers\CakePHP2;
 
 use Mfn\PHP\Analyzer\Analyzers\Analyzer;

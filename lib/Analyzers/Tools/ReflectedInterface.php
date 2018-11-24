@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 
 class ReflectedInterface extends ReflectedObject implements Interface_
