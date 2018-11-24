@@ -39,7 +39,7 @@ use Mfn\PHP\Analyzer\Logger\NullLogger;
 use Mfn\PHP\Analyzer\Util\Util;
 use PhpParser\Lexer;
 
-class AnalyzerTest extends \PHPUnit_Framework_TestCase
+class AnalyzersTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Project */
     private $project;
