@@ -41,7 +41,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new AbstractMissing($this->graph));
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(1, count($reports));
+        $this->assertCount(1, $reports);
         $this->assertSame(
             'Class Mfn\PHP\Analyzer\Tests\AbstractMethodMissing\b misses the following abstract method: Mfn\PHP\Analyzer\Tests\AbstractMethodMissing\a::b()',
             $reports[0]->getTimestampedReport()->getReport()->report()
@@ -69,7 +69,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new InterfaceMissing($this->graph));
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(0, count($reports));
+        $this->assertCount(0, $reports);
     }
 
     public function testInterfaceMissingAnalyzer()
@@ -81,7 +81,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new InterfaceMissing($this->graph));
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(1, count($reports));
+        $this->assertCount(1, $reports);
         $this->assertSame(
             'Class Mfn\PHP\Analyzer\Tests\InterfaceMethodMissing\d misses the following interface method: Mfn\PHP\Analyzer\Tests\InterfaceMethodMissing\a::c()',
             $reports[0]->getTimestampedReport()->getReport()->report()
@@ -97,7 +97,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new MethodCompatibility($this->graph));
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(1, count($reports));
+        $this->assertCount(1, $reports);
         $this->assertSame(
             'Declaration of Mfn\PHP\Analyzer\Tests\MethodDeclarationCompatibility\b::c($a, $a) must be compatible with Mfn\PHP\Analyzer\Tests\MethodDeclarationCompatibility\a::c(array $a = 1)',
             $reports[0]->getTimestampedReport()->getReport()->report()
@@ -113,7 +113,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new InterfaceMethodAbstract($this->graph));
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(1, count($reports));
+        $this->assertCount(1, $reports);
         $this->assertSame(4, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
     }
 
@@ -127,7 +127,7 @@ class AnalyzersTest extends TestCase
         $project->addAnalyzer(new DynamicClassInstantiation());
         $project->analyze();
         $reports = $project->getAnalyzerReports();
-        $this->assertSame(1, count($reports));
+        $this->assertCount(1, $reports);
         $this->assertSame(
             'Dynamic class instantiation with variable $foo in 003_dynamic_class_instantiation.phptest:3',
             $reports[0]->getTimestampedReport()->getReport()->report()
@@ -144,7 +144,7 @@ class AnalyzersTest extends TestCase
         $project->addAnalyzer(new QueryConditionVariables());
         $project->analyze();
         $reports = $project->getAnalyzerReports();
-        $this->assertSame(3, count($reports));
+        $this->assertCount(3, $reports);
         $this->assertSame(
             'Variable used in constructing raw SQL, is it escaped?',
             $reports[0]->getTimestampedReport()->getReport()->report()
@@ -175,7 +175,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new InterfaceMissing($this->graph));
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(0, count($reports));
+        $this->assertCount(0, $reports);
     }
 
     public function testExceptionEmptyCatchBlockAnalyzer()
@@ -186,7 +186,7 @@ class AnalyzersTest extends TestCase
         $this->project->addAnalyzer(new ExceptionEmptyCatch());
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
-        $this->assertSame(2, count($reports));
+        $this->assertCount(2, $reports);
         # Line counting starts with 0
         $this->assertSame(3, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
         $this->assertSame(8, $reports[1]->getSourceFragment()->getLineSegment()->getHighlightLine());
@@ -206,7 +206,7 @@ class AnalyzersTest extends TestCase
         $project->addAnalyzers(Project::getDefaultConfig());
         $project->analyze();
         $reports = $project->getAnalyzerReports();
-        $this->assertSame(10, count($reports));
+        $this->assertCount(10, $reports);
         $this->assertSame(
             'Class Mfn\PHP\Analyzer\Tests\AbstractMethodMissing\b misses the following abstract method: Mfn\PHP\Analyzer\Tests\AbstractMethodMissing\a::b()',
             $reports[0]->getTimestampedReport()->getReport()->report()
