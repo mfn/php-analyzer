@@ -3,3 +3,4 @@
 /phpunit.xml
 /tmp/
 /vendor/
+/.php_cs.cache
