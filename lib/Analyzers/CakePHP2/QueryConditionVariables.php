@@ -144,7 +144,7 @@ class QueryConditionVariables extends Analyzer implements NodeVisitor
             $key = $node->key;
             $value = $node->value;
             if (
-                $key instanceof Node\Scalar\String
+                $key instanceof Node\Scalar\String_
                 &&
                 $key->value === 'conditions'
                 &&
