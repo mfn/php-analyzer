@@ -1,4 +1,5 @@
 /composer.lock
 /php.ini
+/phpunit.xml
 /tmp/
 /vendor/
