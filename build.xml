@@ -19,18 +19,12 @@
     name="phpunit"
     description="Run PHPUnit tests"
     >
-    <phpunit
-      haltonfailure="true"
-      haltonerror="true"
-      configuration="phpunit.xml"
-      >
-      <formatter type="plain" usefile="false"/>
-      <batchtest>
-        <fileset dir="tests">
-          <include name="**/*Test*.php"/>
-        </fileset>
-      </batchtest>
-    </phpunit>
+    <exec
+       executable="vendor/bin/phpunit"
+       dir="${basedir}"
+       checkreturn="true"
+       passthru="true"
+    />
   </target>
 
   <taskdef name="mfn-php-analyzer" classname="Mfn\PHP\Analyzer\PhingTask"/>
