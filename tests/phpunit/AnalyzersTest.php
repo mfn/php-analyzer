@@ -114,7 +114,7 @@ class AnalyzersTest extends TestCase
         $this->project->analyze();
         $reports = $this->project->getAnalyzerReports();
         $this->assertSame(1, count($reports));
-        $this->assertSame(27, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
+        $this->assertSame(4, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
     }
 
     public function testDynamicClassInstantiation()
@@ -129,7 +129,7 @@ class AnalyzersTest extends TestCase
         $reports = $project->getAnalyzerReports();
         $this->assertSame(1, count($reports));
         $this->assertSame(
-            'Dynamic class instantiation with variable $foo in 003_dynamic_class_instantiation.phptest:26',
+            'Dynamic class instantiation with variable $foo in 003_dynamic_class_instantiation.phptest:3',
             $reports[0]->getTimestampedReport()->getReport()->report()
         );
     }
@@ -150,15 +150,15 @@ class AnalyzersTest extends TestCase
             $reports[0]->getTimestampedReport()->getReport()->report()
         );
         $this->assertSame(
-            29,
+            6,
             $reports[0]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
         );
         $this->assertSame(
-            30,
+            7,
             $reports[1]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
         );
         $this->assertSame(
-            31,
+            8,
             $reports[2]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
         );
     }
@@ -188,8 +188,8 @@ class AnalyzersTest extends TestCase
         $reports = $this->project->getAnalyzerReports();
         $this->assertSame(2, count($reports));
         # Line counting starts with 0
-        $this->assertSame(27, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
-        $this->assertSame(32, $reports[1]->getSourceFragment()->getLineSegment()->getHighlightLine());
+        $this->assertSame(3, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
+        $this->assertSame(8, $reports[1]->getSourceFragment()->getLineSegment()->getHighlightLine());
     }
 
 
@@ -220,9 +220,9 @@ class AnalyzersTest extends TestCase
             $reports[2]->getTimestampedReport()->getReport()->report()
         );
         # Empty exception catch block reports
-        $this->assertSame(27, $reports[3]->getSourceFragment()->getLineSegment()->getHighlightLine());
+        $this->assertSame(4, $reports[3]->getSourceFragment()->getLineSegment()->getHighlightLine());
         $this->assertSame(
-            'Dynamic class instantiation with variable $foo in 003_dynamic_class_instantiation.phptest:26',
+            'Dynamic class instantiation with variable $foo in 003_dynamic_class_instantiation.phptest:3',
             $reports[4]->getTimestampedReport()->getReport()->report()
         );
         $this->assertSame(
@@ -230,19 +230,19 @@ class AnalyzersTest extends TestCase
             $reports[5]->getTimestampedReport()->getReport()->report()
         );
         $this->assertSame(
-            29,
+            6,
             $reports[5]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
         );
         $this->assertSame(
-            30,
+            7,
             $reports[6]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
         );
         $this->assertSame(
-            31,
+            8,
             $reports[7]->getTimestampedReport()->getReport()->getSourceFragment()->getLineSegment()->getHighlightLine()
         );
         # Empty exception catch block reports
-        $this->assertSame(27, $reports[8]->getSourceFragment()->getLineSegment()->getHighlightLine());
-        $this->assertSame(32, $reports[9]->getSourceFragment()->getLineSegment()->getHighlightLine());
+        $this->assertSame(3, $reports[8]->getSourceFragment()->getLineSegment()->getHighlightLine());
+        $this->assertSame(8, $reports[9]->getSourceFragment()->getLineSegment()->getHighlightLine());
     }
 }
