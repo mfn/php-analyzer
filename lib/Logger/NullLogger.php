@@ -22,8 +22,7 @@ final class NullLogger extends ProjectLogger
         return self::$instance;
     }
 
-    protected function realLog($level, $message, array $context = [])
+    protected function realLog($level, $message, array $context = []): void
     {
-        return null;
     }
 }

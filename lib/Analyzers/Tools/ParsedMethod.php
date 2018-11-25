@@ -26,7 +26,7 @@ class ParsedMethod implements GenericMethod, Parsed
         $this->printer = new ParserPrinter();
     }
 
-    public function getNormalizedName()
+    public function getNormalizedName(): string
     {
         return strtolower($this->method->name);
     }
@@ -34,7 +34,7 @@ class ParsedMethod implements GenericMethod, Parsed
     /**
      * @return ClassMethod
      */
-    public function getMethod()
+    public function getMethod(): ClassMethod
     {
         return $this->method;
     }
@@ -42,7 +42,7 @@ class ParsedMethod implements GenericMethod, Parsed
     /**
      * @return ParsedClass
      */
-    public function getClass()
+    public function getClass(): Class_
     {
         if ($this->object instanceof ParsedClass) {
             return $this->object;
@@ -54,7 +54,7 @@ class ParsedMethod implements GenericMethod, Parsed
     /**
      * @return ParsedInterface
      */
-    public function getInterface()
+    public function getInterface(): Interface_
     {
         if ($this->object instanceof ParsedInterface) {
             return $this->object;
@@ -66,7 +66,7 @@ class ParsedMethod implements GenericMethod, Parsed
     /**
      * @return string
      */
-    public function getFullSignature()
+    public function getFullSignature(): string
     {
         return
             $this->printer->pModifiers($this->method)
@@ -82,18 +82,12 @@ class ParsedMethod implements GenericMethod, Parsed
             . '(' . $this->printer->expose_pImplode($this->method->params, ', ') . ')';
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->method->name;
     }
 
-    /**
-     * @return GenericObject
-     */
-    public function getObject()
+    public function getObject(): GenericObject
     {
         // TODO: Implement getObject() method.
     }

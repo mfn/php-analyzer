@@ -19,7 +19,7 @@ class Report extends \Mfn\PHP\Analyzer\Report\Report
         $this->subType = $subType;
     }
 
-    public function report()
+    public function report(): string
     {
         return sprintf(
             'Declaration of %s::%s must be compatible with %s::%s',

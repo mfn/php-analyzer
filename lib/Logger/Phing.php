@@ -23,7 +23,7 @@ class Phing extends ProjectLogger
     }
 
 
-    protected function realLog($level, $message, array $context = [])
+    protected function realLog($level, $message, array $context = []): void
     {
         $message = self::interpolateContext($message, $context);
         switch ($level) {

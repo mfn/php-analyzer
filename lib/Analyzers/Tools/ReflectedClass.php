@@ -17,26 +17,17 @@ class ReflectedClass extends ReflectedObject implements Class_
         parent::__construct($class);
     }
 
-    /**
-     * @return bool
-     */
-    public function isInterface()
+    public function isInterface(): bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function isClass()
+    public function isClass(): bool
     {
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function getKind()
+    public function getKind(): string
     {
         return 'Class';
     }
@@ -44,7 +35,7 @@ class ReflectedClass extends ReflectedObject implements Class_
     /**
      * @return Interface_[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->interfaces;
     }
@@ -52,7 +43,7 @@ class ReflectedClass extends ReflectedObject implements Class_
     /**
      * @return NULL|Class_
      */
-    public function getParent()
+    public function getParent(): ?Class_
     {
         return $this->parent;
     }
@@ -61,7 +52,7 @@ class ReflectedClass extends ReflectedObject implements Class_
      * @param Class_ $class
      * @return $this
      */
-    public function setParent(Class_ $class)
+    public function setParent(Class_ $class): Class_
     {
         if (!($class instanceof ReflectedClass)) {
             throw new \RuntimeException(
@@ -76,7 +67,7 @@ class ReflectedClass extends ReflectedObject implements Class_
      * @param Interface_ $interface
      * @return $this
      */
-    public function addInterface(Interface_ $interface)
+    public function addInterface(Interface_ $interface): HasInterfaces
     {
         if (!($interface instanceof ReflectedInterface)) {
             throw new \RuntimeException(

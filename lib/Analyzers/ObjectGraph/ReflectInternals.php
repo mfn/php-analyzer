@@ -23,18 +23,12 @@ class ReflectInternals extends Analyzer
         $this->graph = $graph;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'ObjectGraphReflectInternals';
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         # Necessary, otherwise the graph doesn't know of the project because only
         # within it's own analyzer lifecycle would it receive it

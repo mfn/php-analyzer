@@ -30,7 +30,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
     /**
      * @return \ReflectionClass
      */
-    public function getReflectionClass()
+    public function getReflectionClass(): \ReflectionClass
     {
         return $this->reflectionClass;
     }
@@ -38,7 +38,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
     /**
      * @return ReflectedMethod[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         if (null === $this->methods) {
             $this->methods = [];
@@ -53,7 +53,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
      * Get the Full Qualified Name of the object
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->reflectionClass->getName();
     }
@@ -62,7 +62,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
      * Get namespace name
      * @return string
      */
-    public function getNamespaceName()
+    public function getNamespaceName(): string
     {
         return $this->reflectionClass->getNamespaceName();
     }
@@ -71,7 +71,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
      * Get the short name, the part without the namespace.
      * @return string
      */
-    public function getShortName()
+    public function getShortName(): string
     {
         return $this->reflectionClass->getShortName();
     }
@@ -80,7 +80,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
     /**
      * @return string[]
      */
-    public function getInterfaceNames()
+    public function getInterfaceNames(): array
     {
         return $this->reflectionClass->getInterfaceNames();
     }

@@ -36,7 +36,7 @@ class File
     /**
      * @return \SplFileInfo
      */
-    public function getSplFile()
+    public function getSplFile(): \SplFileInfo
     {
         return $this->splFile;
     }
@@ -44,7 +44,7 @@ class File
     /**
      * @return string
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -52,7 +52,7 @@ class File
     /**
      * @return \PhpParser\Node[]
      */
-    public function getTree()
+    public function getTree(): array
     {
         return $this->tree;
     }

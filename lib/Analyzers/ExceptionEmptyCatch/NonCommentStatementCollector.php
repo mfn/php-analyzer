@@ -16,7 +16,7 @@ class NonCommentStatementCollector implements NodeVisitor
     /**
      * @return int
      */
-    public function getNonCommentStatements()
+    public function getNonCommentStatements(): int
     {
         return $this->nonCommentStatements;
     }

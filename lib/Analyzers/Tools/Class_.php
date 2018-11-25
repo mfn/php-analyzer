@@ -4,14 +4,7 @@ namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 interface Class_ extends GenericObject, HasInterfaces
 {
 
-    /**
-     * @return NULL|Class_
-     */
-    public function getParent();
+    public function getParent(): ?self;
 
-    /**
-     * @param Class_ $class
-     * @return $this
-     */
-    public function setParent(Class_ $class);
+    public function setParent(Class_ $class): self;
 }

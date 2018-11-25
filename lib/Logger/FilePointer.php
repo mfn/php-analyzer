@@ -25,7 +25,7 @@ class FilePointer extends ProjectLogger
         $this->fd = $fd;
     }
 
-    protected function realLog($level, $message, array $context = [])
+    protected function realLog($level, $message, array $context = []): void
     {
         $message = self::interpolateContext($message, $context);
         fwrite(

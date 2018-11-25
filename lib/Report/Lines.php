@@ -49,7 +49,7 @@ class Lines
     /**
      * @return int|NULL
      */
-    public function getHighlightLine()
+    public function getHighlightLine(): ?int
     {
         return $this->highlightLine;
     }
@@ -57,7 +57,7 @@ class Lines
     /**
      * @return int
      */
-    public function getFrom()
+    public function getFrom(): int
     {
         return $this->from;
     }
@@ -65,7 +65,7 @@ class Lines
     /**
      * @return int
      */
-    public function getTo()
+    public function getTo(): int
     {
         return $this->to;
     }
@@ -73,7 +73,7 @@ class Lines
     /**
      * @return int
      */
-    public function length()
+    public function length(): int
     {
         return $this->to - $this->from;
     }
@@ -81,7 +81,7 @@ class Lines
     /**
      * Return an array with serialize discrete values
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [
             'from' => $this->from,

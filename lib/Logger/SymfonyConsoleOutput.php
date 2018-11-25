@@ -25,9 +25,8 @@ class SymfonyConsoleOutput extends ProjectLogger
      * @param int $level
      * @param string $message
      * @param array $context
-     * @return NULL
      */
-    protected function realLog($level, $message, array $context = [])
+    protected function realLog($level, $message, array $context = []): void
     {
         $message = self::interpolateContext($message, $context);
         $this->output->writeln(

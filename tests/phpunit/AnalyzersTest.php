@@ -32,7 +32,7 @@ class AnalyzersTest extends TestCase
         $this->graph = new ObjectGraph();
     }
 
-    public function testAbstractMissingAnalyzer()
+    public function testAbstractMissingAnalyzer(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('001_abstract_method_missing'))
@@ -48,19 +48,19 @@ class AnalyzersTest extends TestCase
         );
     }
 
-    static private function getAnalyzerFilename($name)
+    static private function getAnalyzerFilename($name): string
     {
         return self::getAnalyzerTestsDir() . $name . '.phptest';
     }
 
-    static private function getAnalyzerTestsDir()
+    static private function getAnalyzerTestsDir(): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
         . 'analyzer' . DIRECTORY_SEPARATOR;
 
     }
 
-    public function testInterfaceMissingAnalyzerNotMissing()
+    public function testInterfaceMissingAnalyzerNotMissing(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('007_interface_method_not_missing'))
@@ -72,7 +72,7 @@ class AnalyzersTest extends TestCase
         $this->assertCount(0, $reports);
     }
 
-    public function testInterfaceMissingAnalyzer()
+    public function testInterfaceMissingAnalyzer(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('006_interface_method_missing'))
@@ -88,7 +88,7 @@ class AnalyzersTest extends TestCase
         );
     }
 
-    public function testMethodCompatibilityAnalyzer()
+    public function testMethodCompatibilityAnalyzer(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('008_method_declaration_compability'))
@@ -104,7 +104,7 @@ class AnalyzersTest extends TestCase
         );
     }
 
-    public function testInterfaceMethodAbstract()
+    public function testInterfaceMethodAbstract(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('004_interface_method_abstract'))
@@ -117,7 +117,7 @@ class AnalyzersTest extends TestCase
         $this->assertSame(4, $reports[0]->getSourceFragment()->getLineSegment()->getHighlightLine());
     }
 
-    public function testDynamicClassInstantiation()
+    public function testDynamicClassInstantiation(): void
     {
         $project = new Project(NullLogger::getInstance());
         $project->addSplFileInfo(
@@ -134,7 +134,7 @@ class AnalyzersTest extends TestCase
         );
     }
 
-    public function testCakePHP2ConditionVariables()
+    public function testCakePHP2ConditionVariables(): void
     {
         $project = new Project(NullLogger::getInstance());
         $project->addSplFileInfo(
@@ -166,7 +166,7 @@ class AnalyzersTest extends TestCase
     /**
      * This currently is expected to fail but should not
      */
-    public function testInterfaceMethodImplementedInternal()
+    public function testInterfaceMethodImplementedInternal(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('005_interface_method_implemented_internal'))
@@ -178,7 +178,7 @@ class AnalyzersTest extends TestCase
         $this->assertCount(0, $reports);
     }
 
-    public function testExceptionEmptyCatchBlockAnalyzer()
+    public function testExceptionEmptyCatchBlockAnalyzer(): void
     {
         $this->project->addSplFileInfo(
             new \SplFileInfo(self::getAnalyzerFilename('009_empty_catch_block'))
@@ -197,7 +197,7 @@ class AnalyzersTest extends TestCase
      * Although this test seems redundant I use it to ensure that as far as it's
      * possible the analyzers do not negatively affect each other.
      */
-    public function testAllAnalyzers()
+    public function testAllAnalyzers(): void
     {
         $project = new Project(NullLogger::getInstance());
         foreach (Util::scanDir(self::getAnalyzerTestsDir(), '/\.phptest$/') as $file) {

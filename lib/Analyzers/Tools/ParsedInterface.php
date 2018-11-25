@@ -64,7 +64,7 @@ class ParsedInterface extends ParsedObject implements Interface_
     /**
      * @return ParsedMethod[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         if (null === $this->methods) {
             $this->methods = array_map(
@@ -85,7 +85,7 @@ class ParsedInterface extends ParsedObject implements Interface_
     /**
      * @return ParsedInterface[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return $this->extends;
     }
@@ -94,7 +94,7 @@ class ParsedInterface extends ParsedObject implements Interface_
      * @param Interface_ $interface
      * @return $this
      */
-    public function addInterface(Interface_ $interface)
+    public function addInterface(Interface_ $interface): HasInterfaces
     {
         if (!array_key_exists($interface->getName(), $this->extends)) {
             throw new \RuntimeException(
@@ -109,7 +109,7 @@ class ParsedInterface extends ParsedObject implements Interface_
     /**
      * @return \string[]
      */
-    public function getInterfaceNames()
+    public function getInterfaceNames(): array
     {
         return array_keys($this->extends);
     }
@@ -120,7 +120,7 @@ class ParsedInterface extends ParsedObject implements Interface_
      *
      * @return string
      */
-    public function getKind()
+    public function getKind(): string
     {
         return 'Interface';
     }
@@ -130,23 +130,17 @@ class ParsedInterface extends ParsedObject implements Interface_
      *
      * @return PhpParserInterface
      */
-    public function getInterface()
+    public function getInterface(): PhpParserInterface
     {
         return $this->node;
     }
 
-    /**
-     * @return bool
-     */
-    public function isInterface()
+    public function isInterface(): bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function isClass()
+    public function isClass(): bool
     {
         return false;
     }

@@ -10,19 +10,12 @@ abstract class Report
     /** @var NULL|SourceFragment */
     protected $sourceFragment = null;
 
-    /**
-     * @return SourceFragment|NULL
-     */
-    public function getSourceFragment()
+    public function getSourceFragment(): ?SourceFragment
     {
         return $this->sourceFragment;
     }
 
-    /**
-     * @param SourceFragment $sourceFragment
-     * @return $this
-     */
-    public function setSourceFragment(SourceFragment $sourceFragment)
+    public function setSourceFragment(SourceFragment $sourceFragment): Report
     {
         $this->sourceFragment = $sourceFragment;
         return $this;
@@ -44,7 +37,7 @@ abstract class Report
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [
             'kind' => get_class($this),
@@ -56,8 +49,5 @@ abstract class Report
         return $data;
     }
 
-    /**
-     * @return string
-     */
-    abstract public function report();
+    abstract public function report(): string;
 }

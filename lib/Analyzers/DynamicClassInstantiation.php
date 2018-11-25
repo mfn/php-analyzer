@@ -31,18 +31,12 @@ class DynamicClassInstantiation extends Analyzer implements NodeVisitor
         $this->setSeverity(Severity::WARNING);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'DynamicClassInstantiation';
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $this->project = $project;
         $traverser = new NodeTraverser();

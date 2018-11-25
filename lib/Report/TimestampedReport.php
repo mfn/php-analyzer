@@ -18,7 +18,7 @@ class TimestampedReport extends Report
     /**
      * @return Report
      */
-    public function getReport()
+    public function getReport(): Report
     {
         return $this->report;
     }
@@ -26,30 +26,27 @@ class TimestampedReport extends Report
     /**
      * @return \DateTime
      */
-    public function getTimestamp()
+    public function getTimestamp(): \DateTime
     {
         return $this->timestamp;
     }
 
-    /**
-     * @return string
-     */
-    public function report()
+    public function report(): string
     {
         return $this->report->report();
     }
 
-    public function getSourceFragment()
+    public function getSourceFragment(): ?SourceFragment
     {
         return $this->report->getSourceFragment();
     }
 
-    public function setSourceFragment(SourceFragment $sourceFragment)
+    public function setSourceFragment(SourceFragment $sourceFragment): Report
     {
         return $this->report->setSourceFragment($sourceFragment);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'timestamp' => $this->timestamp->format(\DateTime::ATOM),

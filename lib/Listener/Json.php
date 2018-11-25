@@ -18,27 +18,27 @@ class Json extends FilePointerWriter
         $this->json = $json;
     }
 
-    public function projectStart(Project $project)
+    public function projectStart(Project $project): void
     {
         // TODO: Implement projectStart() method.
     }
 
-    public function projectEnd(Project $project)
+    public function projectEnd(Project $project): void
     {
         $this->write($this->json->formatReports($project->getAnalyzerReports()));
     }
 
-    public function beforeAnalyzer(Analyzer $analyzer)
+    public function beforeAnalyzer(Analyzer $analyzer): void
     {
         // TODO: Implement beforeAnalyzer() method.
     }
 
-    public function afterAnalyzer(Analyzer $analyzer)
+    public function afterAnalyzer(Analyzer $analyzer): void
     {
         // TODO: Implement afterAnalyzer() method.
     }
 
-    public function addReport(AnalyzerReport $analyzerReport)
+    public function addReport(AnalyzerReport $analyzerReport): void
     {
         // TODO: Implement addReport() method.
     }

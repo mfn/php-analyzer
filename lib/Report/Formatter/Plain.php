@@ -10,11 +10,7 @@ use Mfn\PHP\Analyzer\Report\TimestampedReport;
 class Plain implements Formatter
 {
 
-    /**
-     * @param Report $report
-     * @return string
-     */
-    public function formatReport(Report $report)
+    public function formatReport(Report $report): string
     {
         return self::formatReportReadable($report);
     }
@@ -23,7 +19,7 @@ class Plain implements Formatter
      * @param Report $report
      * @return string
      */
-    public static function formatReportReadable(Report $report)
+    public static function formatReportReadable(Report $report): string
     {
         $message = '';
         if ($report instanceof TimestampedReport) {
@@ -47,7 +43,7 @@ class Plain implements Formatter
      * @param SourceFragment $fragment
      * @return string
      */
-    public static function formatSourceFragmentReadable(SourceFragment $fragment)
+    public static function formatSourceFragmentReadable(SourceFragment $fragment): string
     {
         $source = '  Source context for '
             . $fragment->getFile()->getSplFile()->getFilename()
@@ -79,7 +75,7 @@ class Plain implements Formatter
      * @param Report[] $reports
      * @return string
      */
-    public function formatReports(array $reports)
+    public function formatReports(array $reports): string
     {
         return join(
             '',

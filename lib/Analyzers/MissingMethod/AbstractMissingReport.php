@@ -28,7 +28,7 @@ class AbstractMissingReport extends Report
         $this->methods = $methods;
     }
 
-    public function report()
+    public function report(): string
     {
         $msg = 'Class ' . $this->class->getName() . ' misses the following abstract method';
         if (count($this->methods) > 1) {
@@ -47,7 +47,7 @@ class AbstractMissingReport extends Report
         return $msg;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'class' => $this->class->getName(),

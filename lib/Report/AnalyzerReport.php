@@ -20,7 +20,7 @@ class AnalyzerReport extends Report
     /**
      * @return Analyzer
      */
-    public function getAnalyzer()
+    public function getAnalyzer(): Analyzer
     {
         return $this->analyzer;
     }
@@ -28,25 +28,22 @@ class AnalyzerReport extends Report
     /**
      * @return TimestampedReport
      */
-    public function getTimestampedReport()
+    public function getTimestampedReport(): TimestampedReport
     {
         return $this->report;
     }
 
-    /**
-     * @return string
-     */
-    public function report()
+    public function report(): string
     {
         return $this->report->report();
     }
 
-    public function getSourceFragment()
+    public function getSourceFragment(): ?SourceFragment
     {
         return $this->report->getSourceFragment();
     }
 
-    public function setSourceFragment(SourceFragment $sourceFragment)
+    public function setSourceFragment(SourceFragment $sourceFragment): Report
     {
         return $this->report->setSourceFragment($sourceFragment);
     }
@@ -56,7 +53,7 @@ class AnalyzerReport extends Report
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'analyzer' => $this->analyzer->getName(),

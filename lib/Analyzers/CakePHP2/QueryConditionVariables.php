@@ -50,18 +50,12 @@ class QueryConditionVariables extends Analyzer implements NodeVisitor
         $this->subNodeTraverser->addVisitor($this->variablesVisitor);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'CakePHP2 QueryConditionVariables';
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $this->project = $project;
         $traverser = new NodeTraverser();

@@ -11,38 +11,32 @@ interface GenericObject
      * Get the Full Qualified Name of the object
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Get namespace name
      * @return string
      */
-    public function getNamespaceName();
+    public function getNamespaceName(): string;
 
     /**
      * Get the short name, the part without the namespace.
      * @return string
      */
-    public function getShortName();
+    public function getShortName(): string;
 
-    /**
-     * @return bool
-     */
-    public function isInterface();
+    public function isInterface(): bool;
 
-    /**
-     * @return bool
-     */
-    public function isClass();
+    public function isClass(): bool;
 
     /**
      * @return GenericMethod[]
      */
-    public function getMethods();
+    public function getMethods(): array;
 
     /**
      * Returns what kind of object it is, i.e. 'Class', 'Interface', etc.
      * @return string
      */
-    public function getKind();
+    public function getKind(): string;
 }

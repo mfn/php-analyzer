@@ -30,11 +30,11 @@ class Phing implements Listener
         $this->logFormat = $task->getLogFormat();
     }
 
-    public function projectStart(Project $project)
+    public function projectStart(Project $project): void
     {
     }
 
-    public function projectEnd(Project $project)
+    public function projectEnd(Project $project): void
     {
         if ($this->logfileWriter && 0 === strpos($this->logFormat, 'json')) {
             $options = $this->logFormat === 'json-pretty'
@@ -50,7 +50,7 @@ class Phing implements Listener
         }
     }
 
-    public function beforeAnalyzer(Analyzer $analyzer)
+    public function beforeAnalyzer(Analyzer $analyzer): void
     {
         $this->task->log(
             'Running analyzer ' . $analyzer->getName(),
@@ -58,11 +58,11 @@ class Phing implements Listener
         );
     }
 
-    public function afterAnalyzer(Analyzer $analyzer)
+    public function afterAnalyzer(Analyzer $analyzer): void
     {
     }
 
-    public function addReport(AnalyzerReport $analyzerReport)
+    public function addReport(AnalyzerReport $analyzerReport): void
     {
         $report = $analyzerReport->getTimestampedReport()->getReport();
 
@@ -101,7 +101,7 @@ class Phing implements Listener
      * @param AnalyzerReport $analyzerReport
      * @return string
      */
-    private static function formatReport(AnalyzerReport $analyzerReport)
+    private static function formatReport(AnalyzerReport $analyzerReport): string
     {
         $timestampedReport = $analyzerReport->getTimestampedReport();
         $report = $timestampedReport->getReport();
@@ -121,7 +121,7 @@ class Phing implements Listener
      * @param int $severity
      * @return int
      */
-    private static function severityToPhingLevel($severity)
+    private static function severityToPhingLevel($severity): ?int
     {
         switch ($severity) {
             case Severity::ERROR:
@@ -136,7 +136,7 @@ class Phing implements Listener
     /**
      * @return string
      */
-    public function getBuildErrorMessage()
+    public function getBuildErrorMessage(): string
     {
         return $this->buildErrorMessage;
     }

@@ -17,7 +17,7 @@ class SourceHandler
     /** @var \SplFileInfo[] */
     protected $splFiles = [];
 
-    public static function configure(Command $command)
+    public static function configure(Command $command): void
     {
         $command
             ->addOption(
@@ -33,7 +33,7 @@ class SourceHandler
             );
     }
 
-    public static function addSourcesToProject(InputInterface $input, Project $project)
+    public static function addSourcesToProject(InputInterface $input, Project $project): void
     {
         $inputSources = [];
         if (null !== $input->getOption('load-from')) {

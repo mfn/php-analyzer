@@ -45,7 +45,7 @@ class Graphviz
     /**
      * @return string
      */
-    public function generate()
+    public function generate(): string
     {
         $nodes = [];
         $edges = [];
@@ -216,7 +216,7 @@ class Graphviz
     /**
      * @return string[]
      */
-    public function getNamespaceWhitelist()
+    public function getNamespaceWhitelist(): array
     {
         return $this->namespaceWhitelist;
     }
@@ -225,7 +225,7 @@ class Graphviz
      * @param string[] $namespaces
      * @return $this
      */
-    public function setNamespaceWhitelist(array $namespaces)
+    public function setNamespaceWhitelist(array $namespaces): self
     {
         $this->namespaceWhitelist = [];
         foreach ($namespaces as $namespace) {
@@ -239,7 +239,7 @@ class Graphviz
      * @param string $namespace
      * @return $this
      */
-    public function addNamespaceToWhitelist($namespace)
+    public function addNamespaceToWhitelist($namespace): self
     {
         $this->namespaceWhitelist = strtolower(str_replace('/', '\\', $namespace));
         return $this;
@@ -248,7 +248,7 @@ class Graphviz
     /**
      * @return boolean
      */
-    public function isShowNamespace()
+    public function isShowNamespace(): bool
     {
         return $this->showNamespace;
     }
@@ -257,7 +257,7 @@ class Graphviz
      * @param boolean $showNamespace
      * @return $this
      */
-    public function setShowNamespace($showNamespace)
+    public function setShowNamespace($showNamespace): self
     {
         $this->showNamespace = $showNamespace;
         return $this;
@@ -266,7 +266,7 @@ class Graphviz
     /**
      * @return ObjectGraph
      */
-    public function getGraph()
+    public function getGraph(): ObjectGraph
     {
         return $this->graph;
     }
@@ -275,7 +275,7 @@ class Graphviz
      * @param ObjectGraph $graph
      * @return $this
      */
-    public function setGraph($graph)
+    public function setGraph($graph): self
     {
         $this->graph = $graph;
         return $this;
@@ -284,7 +284,7 @@ class Graphviz
     /**
      * @return boolean
      */
-    public function isShowOnlyConnected()
+    public function isShowOnlyConnected(): bool
     {
         return $this->showOnlyConnected;
     }
@@ -293,7 +293,7 @@ class Graphviz
      * @param boolean $showOnlyConnected
      * @return $this
      */
-    public function setShowOnlyConnected($showOnlyConnected)
+    public function setShowOnlyConnected($showOnlyConnected): self
     {
         $this->showOnlyConnected = $showOnlyConnected;
         return $this;
@@ -302,7 +302,7 @@ class Graphviz
     /**
      * @return boolean
      */
-    public function isClusterByNamespace()
+    public function isClusterByNamespace(): bool
     {
         return $this->clusterByNamespace;
     }
@@ -311,7 +311,7 @@ class Graphviz
      * @param boolean $clusterByNamespace
      * @return $this
      */
-    public function setClusterByNamespace($clusterByNamespace)
+    public function setClusterByNamespace($clusterByNamespace): self
     {
         $this->clusterByNamespace = $clusterByNamespace;
         return $this;
@@ -320,7 +320,7 @@ class Graphviz
     /**
      * @return boolean
      */
-    public function isNestClusters()
+    public function isNestClusters(): bool
     {
         return $this->nestClusters;
     }
@@ -329,7 +329,7 @@ class Graphviz
      * @param boolean $nestClusters
      * @return $this
      */
-    public function setNestClusters($nestClusters)
+    public function setNestClusters($nestClusters): self
     {
         $this->nestClusters = $nestClusters;
         return $this;

@@ -23,7 +23,7 @@ abstract class ProjectLogger extends Logger
      * @param string $activeAnalyzerName
      * @return $this
      */
-    public function setActiveAnalyzerName($activeAnalyzerName)
+    public function setActiveAnalyzerName($activeAnalyzerName): self
     {
         $this->activeAnalyzerName = $activeAnalyzerName;
         return $this;

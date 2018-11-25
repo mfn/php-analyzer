@@ -30,11 +30,7 @@ class AbstractMissing extends Analyzer
         $this->helper = new Helper($objectGraph);
     }
 
-    /**
-     * @param Project $project
-     * @return \string[]
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $graph = $this->objectGraph;
         /** @var ParsedClass[] $classesMissingMethod */
@@ -101,7 +97,7 @@ class AbstractMissing extends Analyzer
      * @param ParsedClass[] $classes
      * @return ParsedClass[]
      */
-    private function findSubtypeUntilMethodMatchesRecursive($methodName, $classes)
+    private function findSubtypeUntilMethodMatchesRecursive($methodName, $classes): array
     {
         $classesMissingMethod = [];
         foreach ($classes as $class) {
@@ -135,10 +131,7 @@ class AbstractMissing extends Analyzer
         return $classesMissingMethod;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'AbstractMissing';
     }

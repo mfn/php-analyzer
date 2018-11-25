@@ -20,7 +20,7 @@ abstract class Analyzer
     /**
      * @return int
      */
-    public function getSourceContext()
+    public function getSourceContext(): int
     {
         return $this->sourceContext;
     }
@@ -29,7 +29,7 @@ abstract class Analyzer
      * @param int $sourceContext
      * @return $this
      */
-    public function setSourceContext($sourceContext)
+    public function setSourceContext($sourceContext): self
     {
         $this->sourceContext = $sourceContext;
         return $this;
@@ -40,7 +40,7 @@ abstract class Analyzer
      *
      * @return integer
      */
-    public function getSeverity()
+    public function getSeverity(): int
     {
         return $this->severity;
     }
@@ -49,19 +49,13 @@ abstract class Analyzer
      * @param int $severity
      * @return $this
      */
-    public function setSeverity($severity)
+    public function setSeverity($severity): self
     {
         $this->severity = $severity;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    abstract public function getName();
+    abstract public function getName(): string;
 
-    /**
-     * @param Project $project
-     */
-    abstract public function analyze(Project $project);
+    abstract public function analyze(Project $project): void;
 }

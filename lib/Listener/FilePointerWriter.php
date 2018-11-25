@@ -20,7 +20,7 @@ abstract class FilePointerWriter implements Listener
         $this->fd = $fd;
     }
 
-    protected function write($msg)
+    protected function write($msg): void
     {
         fwrite($this->fd, $msg);
     }

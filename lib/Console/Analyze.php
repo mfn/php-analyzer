@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Analyze extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('analyze')
@@ -41,7 +41,7 @@ class Analyze extends Command
         SourceHandler::configure($this);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $logger = new SymfonyConsoleOutput($output);
         $project = new Project($logger);

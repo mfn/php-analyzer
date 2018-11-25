@@ -29,7 +29,7 @@ class PhingTask extends \Task
     /**
      * @return boolean
      */
-    public function isHaltonerror()
+    public function isHaltonerror(): bool
     {
         return $this->haltonerror;
     }
@@ -37,7 +37,7 @@ class PhingTask extends \Task
     /**
      * @param boolean $haltonerror
      */
-    public function setHaltonerror($haltonerror)
+    public function setHaltonerror($haltonerror): void
     {
         if (!is_bool($haltonerror)) {
             throw new \InvalidArgumentException(
@@ -50,7 +50,7 @@ class PhingTask extends \Task
     /**
      * @return boolean
      */
-    public function isHaltonwarning()
+    public function isHaltonwarning(): bool
     {
         return $this->haltonwarning;
     }
@@ -58,7 +58,7 @@ class PhingTask extends \Task
     /**
      * @param boolean $haltonwarning
      */
-    public function setHaltonwarning($haltonwarning)
+    public function setHaltonwarning($haltonwarning): void
     {
         if (!is_bool($haltonwarning)) {
             throw new \InvalidArgumentException(
@@ -68,7 +68,7 @@ class PhingTask extends \Task
         $this->haltonwarning = $haltonwarning;
     }
 
-    public function addFileSet(\FileSet $fs)
+    public function addFileSet(\FileSet $fs): void
     {
         $this->filesets[] = $fs;
     }
@@ -124,7 +124,7 @@ class PhingTask extends \Task
     /**
      * @return \PhingFile
      */
-    public function getConfigFile()
+    public function getConfigFile(): \PhingFile
     {
         return $this->configFile;
     }
@@ -133,7 +133,7 @@ class PhingTask extends \Task
      * @param \PhingFile $configFile
      * @return $this
      */
-    public function setConfigFile($configFile)
+    public function setConfigFile($configFile): self
     {
         $this->configFile = $configFile;
         return $this;
@@ -142,7 +142,7 @@ class PhingTask extends \Task
     /**
      * @return \PhingFile
      */
-    public function getLogfile()
+    public function getLogfile(): \PhingFile
     {
         return $this->logfile;
     }
@@ -150,7 +150,7 @@ class PhingTask extends \Task
     /**
      * @param \PhingFile $logfile
      */
-    public function setLogfile(\PhingFile $logfile)
+    public function setLogfile(\PhingFile $logfile): void
     {
         $this->logfile = $logfile;
     }
@@ -158,7 +158,7 @@ class PhingTask extends \Task
     /**
      * @return string
      */
-    public function getLogFormat()
+    public function getLogFormat(): string
     {
         return $this->logFormat;
     }
@@ -167,7 +167,7 @@ class PhingTask extends \Task
      * @param string $logFormat
      * @return $this
      */
-    public function setLogFormat($logFormat)
+    public function setLogFormat($logFormat): self
     {
         $this->logFormat = $logFormat;
         return $this;

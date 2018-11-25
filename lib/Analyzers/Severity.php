@@ -13,7 +13,7 @@ abstract class Severity
      * @param integer $level
      * @return string
      */
-    public static function toString($level)
+    public static function toString($level): ?string
     {
         switch ($level) {
             case self::ERROR:

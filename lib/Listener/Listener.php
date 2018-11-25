@@ -7,13 +7,13 @@ use Mfn\PHP\Analyzer\Report\AnalyzerReport;
 
 interface Listener
 {
-    public function projectStart(Project $project);
+    public function projectStart(Project $project): void;
 
-    public function projectEnd(Project $project);
+    public function projectEnd(Project $project): void;
 
-    public function beforeAnalyzer(Analyzer $analyzer);
+    public function beforeAnalyzer(Analyzer $analyzer): void;
 
-    public function afterAnalyzer(Analyzer $analyzer);
+    public function afterAnalyzer(Analyzer $analyzer): void;
 
-    public function addReport(AnalyzerReport $analyzerReport);
+    public function addReport(AnalyzerReport $analyzerReport): void;
 }

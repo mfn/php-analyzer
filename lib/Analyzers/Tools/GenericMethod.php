@@ -4,30 +4,18 @@ namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 interface GenericMethod
 {
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Usually lower cased (because PHP is case-insensitive) so names can be
      * easier compared.
      * @return string
      */
-    public function getNormalizedName();
+    public function getNormalizedName(): string;
 
-    /**
-     * @return GenericObject
-     */
-    public function getObject();
+    public function getObject(): GenericObject;
 
-    /**
-     * @return Interface_
-     */
-    public function getInterface();
+    public function getInterface(): Interface_;
 
-    /**
-     * @return Class_
-     */
-    public function getClass();
+    public function getClass(): Class_;
 }

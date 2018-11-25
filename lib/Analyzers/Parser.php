@@ -26,10 +26,7 @@ class Parser extends Analyzer
         $this->parser = $parser;
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $logger = $project->getLogger();
         foreach ($project->getSplFileInfos() as $splFileInfo) {
@@ -55,10 +52,7 @@ class Parser extends Analyzer
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Parser';
     }

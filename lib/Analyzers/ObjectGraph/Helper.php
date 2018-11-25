@@ -30,7 +30,7 @@ class Helper
     public static function classImplements(
         Class_ $class = null,
         Interface_ $superInterface
-    ) {
+    ): bool {
         if (null === $class) {
             return false;
         }
@@ -49,7 +49,7 @@ class Helper
      * @param bool $recursive Whether to find all descendants; off by default
      * @return ParsedClass[]
      */
-    public function findExtends(ParsedClass $class, $recursive = false)
+    public function findExtends(ParsedClass $class, $recursive = false): array
     {
         $found = [];
         foreach ($this->graph->getClasses() as $object) {
@@ -72,7 +72,7 @@ class Helper
      * @param ParsedInterface $interface
      * @return ParsedInterface[]|ParsedClass[]
      */
-    public function findImplements(ParsedInterface $interface)
+    public function findImplements(ParsedInterface $interface): array
     {
         $found = [];
         foreach ($this->graph->getObjects() as $object) {
@@ -103,7 +103,7 @@ class Helper
      * @param ParsedInterface $interface
      * @return ParsedInterface[]
      */
-    public function findInterfaceImplements(ParsedInterface $interface)
+    public function findInterfaceImplements(ParsedInterface $interface): array
     {
         $found = [];
         foreach ($this->graph->getInterfaces() as $object) {

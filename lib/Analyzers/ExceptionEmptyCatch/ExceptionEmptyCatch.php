@@ -46,18 +46,12 @@ class ExceptionEmptyCatch extends Analyzer implements NodeVisitor
         $this->subNodeTraverser->addVisitor($this->nonCommentCounterVisitor);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'ExceptionEmptyCatchBlock';
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $this->project = $project;
         $traverser = new NodeTraverser();

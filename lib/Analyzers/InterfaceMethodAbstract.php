@@ -26,18 +26,12 @@ class InterfaceMethodAbstract extends Analyzer
         $this->graph = $graph;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'InterfaceMethodAbstract';
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         foreach ($this->graph->getObjects() as $object) {
             if ($object instanceof ParsedInterface) {

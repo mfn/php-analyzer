@@ -28,18 +28,12 @@ class MethodCompatibility extends Analyzer
         $this->helper = new Helper($graph);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'MethodCompatibility';
     }
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         foreach ($this->graph->getObjects() as $object) {
             if ($object instanceof ParsedInterface) {
@@ -82,7 +76,7 @@ class MethodCompatibility extends Analyzer
     private function checkInterfaceMethods(
         MethodSignatureCompare $methodCompareTo,
         array $interfaces
-    ) {
+    ): array {
         $compareToName = $methodCompareTo->getMethod()->getNormalizedName();
         $mismatchedMethods = [];
         foreach ($interfaces as $interface) {

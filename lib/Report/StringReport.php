@@ -16,10 +16,7 @@ class StringReport extends Report
         $this->message = $message;
     }
 
-    /**
-     * @return string
-     */
-    public function report()
+    public function report(): string
     {
         return $this->message;
     }

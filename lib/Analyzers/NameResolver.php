@@ -17,10 +17,7 @@ use PhpParser\NodeVisitor\NameResolver as PhpParserNameResolver;
 class NameResolver extends Analyzer
 {
 
-    /**
-     * @param Project $project
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new PhpParserNameResolver());
@@ -29,10 +26,7 @@ class NameResolver extends Analyzer
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'NameResolver';
     }

@@ -84,7 +84,7 @@ class Variables implements NodeVisitor
     /**
      * @return Node\Expr\Variable[]
      */
-    public function getVariables()
+    public function getVariables(): array
     {
         return $this->variables;
     }

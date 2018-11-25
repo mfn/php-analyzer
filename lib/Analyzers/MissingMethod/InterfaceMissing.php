@@ -33,11 +33,7 @@ class InterfaceMissing extends Analyzer
         $this->helper = new Helper($objectGraph);
     }
 
-    /**
-     * @param Project $project
-     * @return \string[]
-     */
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $graph = $this->objectGraph;
         /** @var ParsedClass[] $classesMissingMethod */
@@ -105,7 +101,7 @@ class InterfaceMissing extends Analyzer
     private function findSubtypeUntilMethodMatchesRecursive(
         ParsedMethod $interfaceMethod,
         $implementors
-    ) {
+    ): array {
         $classesMissingMethod = [];
         foreach ($implementors as $object) {
 
@@ -172,7 +168,7 @@ class InterfaceMissing extends Analyzer
      * @param string $methodName
      * @return bool
      */
-    private function classHasParentMethod(Class_ $class = null, $methodName)
+    private function classHasParentMethod(Class_ $class = null, $methodName): bool
     {
         if (null === $class) {
             return false;
@@ -186,10 +182,7 @@ class InterfaceMissing extends Analyzer
         return self::classHasParentMethod($class->getParent(), $methodName);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'InterfaceMissing';
     }

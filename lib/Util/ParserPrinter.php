@@ -15,7 +15,7 @@ class ParserPrinter extends Standard
      *
      * @return string Imploded pretty printed nodes
      */
-    public function expose_pImplode(array $nodes, $glue = '')
+    public function expose_pImplode(array $nodes, $glue = ''): string
     {
         return $this->pImplode($nodes, $glue);
     }

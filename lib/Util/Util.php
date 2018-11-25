@@ -11,7 +11,7 @@ class Util
      * @param string $fileRegex A \RegexIterator compatible regular expression
      * @return \SplFileInfo[]
      */
-    public static function scanDir($dir, $fileRegex = '/\.php$/')
+    public static function scanDir($dir, $fileRegex = '/\.php$/'): array
     {
         $files = [];
         $iter = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir));
@@ -28,7 +28,7 @@ class Util
      *
      * Just make sure you've PHP properly configured to report all errors
      */
-    public static function installMinimalError2ExceptionHandler()
+    public static function installMinimalError2ExceptionHandler(): void
     {
         /** @noinspection PhpUnusedParameterInspection */
         set_error_handler(function ($errno, $errstr, $errfile, $errline, $errcontext) {

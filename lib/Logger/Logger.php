@@ -47,7 +47,7 @@ abstract class Logger implements LoggerInterface
      * @param array $context
      * @return string
      */
-    public static function interpolateContext($msg, array $context)
+    public static function interpolateContext($msg, array $context): string
     {
         if (!preg_match_all('/{([A-Za-z0-9_.]+)}/', $msg, $matches)) {
             return $msg;
@@ -90,7 +90,7 @@ abstract class Logger implements LoggerInterface
      * @param mixed $level
      * @return int
      */
-    protected function ensureLevelIsvalidInt($level)
+    protected function ensureLevelIsvalidInt($level): int
     {
         if (!is_int($level)) {
             try {
@@ -108,7 +108,7 @@ abstract class Logger implements LoggerInterface
      * @param string $level
      * @return int
      */
-    public static function levelToInt($level)
+    public static function levelToInt($level): int
     {
         switch ($level) {
             case LogLevel::DEBUG:
@@ -135,7 +135,7 @@ abstract class Logger implements LoggerInterface
      * @param integer $level
      * @return string
      */
-    public static function levelToString($level)
+    public static function levelToString($level): string
     {
         switch ($level) {
             case self::DEBUG:
@@ -169,9 +169,8 @@ abstract class Logger implements LoggerInterface
      * @param int $level
      * @param string $message
      * @param array $context
-     * @return NULL
      */
-    abstract protected function realLog($level, $message, array $context = []);
+    abstract protected function realLog($level, $message, array $context = []): void;
 
     public function info($message, array $context = [])
     {
@@ -211,7 +210,7 @@ abstract class Logger implements LoggerInterface
     /**
      * @return int
      */
-    public function getReportingLevel()
+    public function getReportingLevel(): int
     {
         return $this->reportingLevel;
     }
@@ -220,7 +219,7 @@ abstract class Logger implements LoggerInterface
      * @param int $reportingLevel
      * @return $this
      */
-    public function setReportingLevel($reportingLevel)
+    public function setReportingLevel($reportingLevel): self
     {
         self::levelToString($reportingLevel); # this only serves as a check
         $this->reportingLevel = $reportingLevel;

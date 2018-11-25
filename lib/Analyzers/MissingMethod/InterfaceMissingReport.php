@@ -27,7 +27,7 @@ class InterfaceMissingReport extends Report
         $this->methods = $methods;
     }
 
-    public function report()
+    public function report(): string
     {
         $msg = 'Class ' . $this->class->getName() . ' misses the following interface method';
         if (count($this->methods) > 1) {

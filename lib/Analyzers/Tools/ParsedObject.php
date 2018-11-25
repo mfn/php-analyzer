@@ -31,7 +31,7 @@ abstract class ParsedObject implements GenericObject, Parsed
     /**
      * @return File
      */
-    public function getFile()
+    public function getFile(): File
     {
         return $this->file;
     }
@@ -39,15 +39,12 @@ abstract class ParsedObject implements GenericObject, Parsed
     /**
      * @return Node
      */
-    public function getNode()
+    public function getNode(): Node
     {
         return $this->node;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->fqn;
     }
@@ -58,13 +55,13 @@ abstract class ParsedObject implements GenericObject, Parsed
      *
      * @return string
      */
-    abstract public function getKind();
+    abstract public function getKind(): string;
 
     /**
      * Get namespace name
      * @return string
      */
-    public function getNamespaceName()
+    public function getNamespaceName(): string
     {
         return $this->namespace;
     }
@@ -73,7 +70,7 @@ abstract class ParsedObject implements GenericObject, Parsed
      * Get the short name, the part without the namespace.
      * @return string
      */
-    public function getShortName()
+    public function getShortName(): string
     {
         $this->node->name;
     }
@@ -82,7 +79,7 @@ abstract class ParsedObject implements GenericObject, Parsed
      * @param Name $name
      * @return string
      */
-    protected function resolveName(Name $name)
+    protected function resolveName(Name $name): string
     {
         $parts = $name->parts;
         if (!$name->isFullyQualified()) {

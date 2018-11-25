@@ -62,7 +62,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /** @var Project */
     private $project = null;
 
-    public function analyze(Project $project)
+    public function analyze(Project $project): void
     {
         $this->project = $project;
         $logger = $project->getLogger();
@@ -142,7 +142,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /**
      * @param GenericObject $fromObject
      * @param string $fqn
-     * @return NULL|ParsedClass
+     * @return NULL|ParsedClass|ReflectedClass
      */
     private function getClassByFqnInRelation(GenericObject $fromObject, $fqn)
     {
@@ -157,7 +157,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
      * @param string $fqn
      * @return NULL|GenericObject
      */
-    public function getObjectByFqn($fqn)
+    public function getObjectByFqn($fqn): ?GenericObject
     {
         if (!isset($this->objects[$fqn])) {
             return null;
@@ -168,7 +168,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /**
      * @param GenericObject $fromObject
      * @param string $fqn
-     * @return NULL|ParsedInterface
+     * @return NULL|ParsedInterface|ReflectedInterface
      */
     private function getInterfaceByFqnInRelation(GenericObject $fromObject, $fqn)
     {
@@ -179,10 +179,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
         return $class;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'ObjectGraph';
     }
@@ -191,7 +188,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
      * @param string $fqn
      * @return NULL|ParsedClass
      */
-    public function getClassByFqn($fqn)
+    public function getClassByFqn($fqn): ?ParsedClass
     {
         if (!isset($this->objects[$fqn])) {
             return null;
@@ -207,7 +204,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
      * @param string $fqn
      * @return NULL|ParsedInterface
      */
-    public function getInterfaceByFqn($fqn)
+    public function getInterfaceByFqn($fqn): ?ParsedInterface
     {
         if (!isset($this->objects[$fqn])) {
             return null;
@@ -222,7 +219,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /**
      * @return ParsedObject[]
      */
-    public function getObjects()
+    public function getObjects(): array
     {
         return $this->objects;
     }
@@ -230,7 +227,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /**
      * @return ParsedClass[]
      */
-    public function getClasses()
+    public function getClasses(): array
     {
         return array_filter(
             $this->objects,
@@ -243,7 +240,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /**
      * @return ParsedInterface[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return array_filter(
             $this->objects,
@@ -322,7 +319,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
      * @param GenericObject $obj
      * @return $this
      */
-    public function addObject(GenericObject $obj)
+    public function addObject(GenericObject $obj): self
     {
         $fqn = $obj->getName();
         if (isset($this->objects[$fqn])) {
@@ -354,7 +351,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /**
      * @return Project
      */
-    public function getProject()
+    public function getProject(): Project
     {
         return $this->project;
     }
@@ -363,7 +360,7 @@ class ObjectGraph extends Analyzer implements NodeVisitor
      * @param Project $project
      * @return $this
      */
-    public function setProject($project)
+    public function setProject($project): self
     {
         $this->project = $project;
         return $this;
@@ -427,7 +424,7 @@ class ObjectAlreadyExistsException extends \RuntimeException
     /**
      * @return GenericObject
      */
-    public function getObject()
+    public function getObject(): GenericObject
     {
         return $this->object;
     }

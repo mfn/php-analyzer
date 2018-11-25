@@ -20,11 +20,7 @@ class Json implements Formatter
         $this->options = $options;
     }
 
-    /**
-     * @param Report $report
-     * @return string
-     */
-    public function formatReport(Report $report)
+    public function formatReport(Report $report): string
     {
         return json_encode($report->toArray(), $this->options);
     }
@@ -33,7 +29,7 @@ class Json implements Formatter
      * @param Report[] $reports
      * @return string
      */
-    public function formatReports(array $reports)
+    public function formatReports(array $reports): string
     {
         return json_encode(
             array_map(
@@ -50,7 +46,7 @@ class Json implements Formatter
      * @param int $options json_encode options
      * @return $this
      */
-    public function setOptions($options)
+    public function setOptions($options): self
     {
         $this->options = $options;
         return $this;

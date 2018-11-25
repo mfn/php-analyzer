@@ -24,7 +24,7 @@ class SourceFragment
     /**
      * @return File
      */
-    public function getFile()
+    public function getFile(): File
     {
         return $this->file;
     }
@@ -34,7 +34,7 @@ class SourceFragment
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [
             'file' => $this->file->getSplFile()->getRealPath(),
@@ -51,7 +51,7 @@ class SourceFragment
      *
      * @return string[]
      */
-    public function getLines()
+    public function getLines(): array
     {
         $lines = [];
         $source = $this->file->getSource();
@@ -71,7 +71,7 @@ class SourceFragment
     /**
      * @return Lines
      */
-    public function getLineSegment()
+    public function getLineSegment(): Lines
     {
         return $this->lineSegment;
     }

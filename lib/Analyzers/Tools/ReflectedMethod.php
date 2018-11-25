@@ -15,10 +15,7 @@ class ReflectedMethod implements GenericMethod, Reflected
         $this->method = $method;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->method->getName();
     }
@@ -28,7 +25,7 @@ class ReflectedMethod implements GenericMethod, Reflected
      * easier compared.
      * @return string
      */
-    public function getNormalizedName()
+    public function getNormalizedName(): string
     {
         return strtolower($this->method->getName());
     }
@@ -36,7 +33,7 @@ class ReflectedMethod implements GenericMethod, Reflected
     /**
      * @return ReflectedObject
      */
-    public function getObject()
+    public function getObject(): GenericObject
     {
         return $this->object;
     }
@@ -44,7 +41,7 @@ class ReflectedMethod implements GenericMethod, Reflected
     /**
      * @return ReflectedInterface
      */
-    public function getInterface()
+    public function getInterface(): Interface_
     {
         if ($this->object instanceof ReflectedInterface) {
             return $this->object;
@@ -56,7 +53,7 @@ class ReflectedMethod implements GenericMethod, Reflected
     /**
      * @return ReflectedClass
      */
-    public function getClass()
+    public function getClass(): Class_
     {
         if ($this->object instanceof ReflectedClass) {
             return $this->object;

@@ -66,7 +66,7 @@ class Project
      *
      * @return Analyzer[]
      */
-    public static function getDefaultConfig()
+    public static function getDefaultConfig(): array
     {
         return require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
             . 'res/defaultAnalyzerConfiguration.php';
@@ -76,7 +76,7 @@ class Project
      * @param \SplFileInfo[] $files
      * @return $this
      */
-    public function addSplFileInfos(array $files)
+    public function addSplFileInfos(array $files): self
     {
         foreach ($files as $file) {
             $this->addSplFileInfo($file);
@@ -88,7 +88,7 @@ class Project
      * @param \SplFileInfo $file
      * @return $this
      */
-    public function addSplFileInfo(\SplFileInfo $file)
+    public function addSplFileInfo(\SplFileInfo $file): self
     {
         $this->logger->info('Adding ' . $file->getRealPath());
         $this->splFileInfos[] = $file;
@@ -98,7 +98,7 @@ class Project
     /**
      * @return \SplFileInfo[]
      */
-    public function getSplFileInfos()
+    public function getSplFileInfos(): array
     {
         return $this->splFileInfos;
     }
@@ -107,7 +107,7 @@ class Project
      * @param File $file
      * @return $this
      */
-    public function addFile(File $file)
+    public function addFile(File $file): self
     {
         $this->files[] = $file;
         return $this;
@@ -126,7 +126,7 @@ class Project
      * @param Report $report
      * @return $this
      */
-    public function addReport(Report $report)
+    public function addReport(Report $report): self
     {
         if (!($this->currentAnalyzer instanceof Analyzer)) {
             throw new \RuntimeException(
@@ -149,7 +149,7 @@ class Project
         return $this;
     }
 
-    private function notifyAddReport(AnalyzerReport $report)
+    private function notifyAddReport(AnalyzerReport $report): void
     {
         foreach ($this->listeners as $listener) {
             $listener->addReport($report);
@@ -160,7 +160,7 @@ class Project
      * @param Analyzer[] $analyzers
      * @return $this
      */
-    public function addAnalyzers(array $analyzers)
+    public function addAnalyzers(array $analyzers): self
     {
         foreach ($analyzers as $analyzer) {
             $this->addAnalyzer($analyzer);
@@ -172,7 +172,7 @@ class Project
      * @param Analyzer $analyzer
      * @return $this
      */
-    public function addAnalyzer(Analyzer $analyzer)
+    public function addAnalyzer(Analyzer $analyzer): self
     {
         $this->analyzers[] = $analyzer;
         return $this;
@@ -182,7 +182,7 @@ class Project
      * Main entry point
      * @return $this
      */
-    public function analyze()
+    public function analyze(): self
     {
         $this->notifyProjectStart();
         foreach ($this->analyzers as $analyzer) {
@@ -198,28 +198,28 @@ class Project
         return $this;
     }
 
-    private function notifyProjectStart()
+    private function notifyProjectStart(): void
     {
         foreach ($this->listeners as $listener) {
             $listener->projectStart($this);
         }
     }
 
-    private function notifyBeforeAnalyzer(Analyzer $analyzer)
+    private function notifyBeforeAnalyzer(Analyzer $analyzer): void
     {
         foreach ($this->listeners as $listener) {
             $listener->beforeAnalyzer($analyzer);
         }
     }
 
-    private function notifyAfterAnalyzer(Analyzer $analyzer)
+    private function notifyAfterAnalyzer(Analyzer $analyzer): void
     {
         foreach ($this->listeners as $listener) {
             $listener->afterAnalyzer($analyzer);
         }
     }
 
-    private function notifyProjectEnd()
+    private function notifyProjectEnd(): void
     {
         foreach ($this->listeners as $listener) {
             $listener->projectEnd($this);
@@ -229,7 +229,7 @@ class Project
     /**
      * @return ProjectLogger
      */
-    public function getLogger()
+    public function getLogger(): ProjectLogger
     {
         return $this->logger;
     }
@@ -240,7 +240,7 @@ class Project
      * @param ProjectLogger $logger
      * @return $this
      */
-    public function setLogger(ProjectLogger $logger)
+    public function setLogger(ProjectLogger $logger): self
     {
         $this->logger = $logger;
         return $this;
@@ -249,7 +249,7 @@ class Project
     /**
      * @return File[]
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->files;
     }
@@ -257,7 +257,7 @@ class Project
     /**
      * @return AnalyzerReport[]
      */
-    public function getAnalyzerReports()
+    public function getAnalyzerReports(): array
     {
         return $this->analyzerReports;
     }
@@ -266,7 +266,7 @@ class Project
      * @param Listener $listener
      * @return $this
      */
-    public function addListener(Listener $listener)
+    public function addListener(Listener $listener): self
     {
         $this->listeners[] = $listener;
         return $this;
@@ -276,7 +276,7 @@ class Project
      * @param Listener $listener
      * @return $this
      */
-    public function removeListener(Listener $listener)
+    public function removeListener(Listener $listener): self
     {
         $pos = array_search($listener, $this->listeners, true);
         if (false !== $pos) {

@@ -82,7 +82,7 @@ class ParsedClass extends ParsedObject implements Class_
     /**
      * @return ParsedMethod[]
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         if (null === $this->methods) {
             $this->methods = array_map(
@@ -95,19 +95,12 @@ class ParsedClass extends ParsedObject implements Class_
         return $this->methods;
     }
 
-    /**
-     * @return Class_|NULL
-     */
-    public function getParent()
+    public function getParent(): ?Class_
     {
         return $this->parent;
     }
 
-    /**
-     * @param Class_ $parent
-     * @return $this
-     */
-    public function setParent(Class_ $parent)
+    public function setParent(Class_ $parent): Class_
     {
         if ($parent->getName() !== $this->fqParent) {
             throw new \RuntimeException(
@@ -122,7 +115,7 @@ class ParsedClass extends ParsedObject implements Class_
     /**
      * @return Interface_[]
      */
-    public function getInterfaces()
+    public function getInterfaces(): array
     {
         return array_values($this->implements);
     }
@@ -131,7 +124,7 @@ class ParsedClass extends ParsedObject implements Class_
      * @param Interface_ $interface
      * @return $this
      */
-    public function addInterface(Interface_ $interface)
+    public function addInterface(Interface_ $interface): HasInterfaces
     {
         if (!array_key_exists($interface->getName(), $this->implements)) {
             throw new \RuntimeException(
@@ -146,7 +139,7 @@ class ParsedClass extends ParsedObject implements Class_
     /**
      * @return NULL|string
      */
-    public function getFqExtends()
+    public function getFqExtends(): ?string
     {
         return $this->fqParent;
     }
@@ -154,7 +147,7 @@ class ParsedClass extends ParsedObject implements Class_
     /**
      * @return string[]
      */
-    public function getInterfaceNames()
+    public function getInterfaceNames(): array
     {
         return array_keys($this->implements);
     }
@@ -165,7 +158,7 @@ class ParsedClass extends ParsedObject implements Class_
      *
      * @return string
      */
-    public function getKind()
+    public function getKind(): string
     {
         return 'Class';
     }
@@ -175,23 +168,17 @@ class ParsedClass extends ParsedObject implements Class_
      *
      * @return PhpParserClass
      */
-    public function getClass()
+    public function getClass(): PhpParserClass
     {
         return $this->node;
     }
 
-    /**
-     * @return bool
-     */
-    public function isInterface()
+    public function isInterface(): bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function isClass()
+    public function isClass(): bool
     {
         return true;
     }

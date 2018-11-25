@@ -7,16 +7,16 @@ interface HasInterfaces
     /**
      * @return Interface_[]
      */
-    public function getInterfaces();
+    public function getInterfaces(): array;
 
     /**
      * @param Interface_ $interface
      * @return $this
      */
-    public function addInterface(Interface_ $interface);
+    public function addInterface(Interface_ $interface): HasInterfaces;
 
     /**
      * @return string[]
      */
-    public function getInterfaceNames();
+    public function getInterfaceNames(): array;
 }

@@ -6,15 +6,11 @@ use Mfn\PHP\Analyzer\Report\Report;
 interface Formatter
 {
 
-    /**
-     * @param Report $report
-     * @return string
-     */
-    public function formatReport(Report $report);
+    public function formatReport(Report $report): string;
 
     /**
      * @param Report[] $reports
      * @return string
      */
-    public function formatReports(array $reports);
+    public function formatReports(array $reports): string;
 }
