@@ -23,6 +23,8 @@ class AbstractMissing extends Analyzer
 
     /** @var ObjectGraph */
     private $objectGraph;
+    /** Helper */
+    private $helper;
 
     public function __construct(ObjectGraph $objectGraph)
     {

@@ -21,6 +21,8 @@ class MethodCompatibility extends Analyzer
 
     /** @var ObjectGraph */
     private $graph;
+    /** @var Helper */
+    private $helper;
 
     public function __construct(ObjectGraph $graph)
     {

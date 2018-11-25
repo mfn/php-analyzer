@@ -34,6 +34,8 @@ class ExceptionEmptyCatch extends Analyzer implements NodeVisitor
      * @var File
      */
     private $currentFile;
+    /** NodeTraverser */
+    private $subNodeTraverser;
 
     /**
      *
