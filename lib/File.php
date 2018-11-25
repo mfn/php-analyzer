@@ -42,9 +42,9 @@ class File
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getSource(): string
+    public function getSource(): array
     {
         return $this->source;
     }
