@@ -7,7 +7,7 @@ class ReflectedClass extends ReflectedObject implements Class_
     /** @var ReflectedInterface[] */
     private $interfaces = [];
     /** @var null|ReflectedClass */
-    private $parent = null;
+    private $parent;
 
     public function __construct(\ReflectionClass $class)
     {

@@ -11,15 +11,15 @@ class File
     /**
      * @var \SplFileInfo
      */
-    private $splFile = null;
+    private $splFile;
     /**
      * @var string[]
      */
-    private $source = null;
+    private $source;
     /**
      * @var \PhpParser\Node[]
      */
-    private $tree = null;
+    private $tree;
 
     /**
      * @param \SplFileInfo $splFile

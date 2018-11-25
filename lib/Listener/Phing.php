@@ -17,7 +17,7 @@ class Phing implements Listener
     /** @var string */
     private $buildErrorMessage = '';
     /** @var \FileWriter|NULL */
-    private $logfileWriter = null;
+    private $logfileWriter;
     /** @var string */
     private $logFormat = '';
 

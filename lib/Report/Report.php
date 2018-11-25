@@ -8,7 +8,7 @@ abstract class Report
 {
 
     /** @var NULL|SourceFragment */
-    protected $sourceFragment = null;
+    protected $sourceFragment;
 
     public function getSourceFragment(): ?SourceFragment
     {

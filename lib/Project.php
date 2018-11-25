@@ -32,13 +32,13 @@ class Project
     /** @var Analyzer[] */
     private $analyzers = [];
     /** @var Map map<Analyzer,TimestampedReport[]> */
-    private $reports = null;
+    private $reports;
     /** @var AnalyzerReport[] */
     private $analyzerReports = [];
     /** @var NULL|Analyzer */
-    private $currentAnalyzer = null;
+    private $currentAnalyzer;
     /** @var ProjectLogger */
-    private $logger = null;
+    private $logger;
     /** @var Listener[] */
     private $listeners = [];
 

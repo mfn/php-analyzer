@@ -26,7 +26,7 @@ abstract class ParsedObject implements GenericObject, Parsed
     /** @var Use_[] */
     protected $uses = [];
     /** @var Node */
-    protected $node = null;
+    protected $node;
 
     /**
      * @return File

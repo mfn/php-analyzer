@@ -25,7 +25,7 @@ class InterfaceMissing extends Analyzer
 {
 
     /** @var ObjectGraph */
-    private $objectGraph = null;
+    private $objectGraph;
 
     public function __construct(ObjectGraph $objectGraph)
     {

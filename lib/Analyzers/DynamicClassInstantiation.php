@@ -22,9 +22,9 @@ class DynamicClassInstantiation extends Analyzer implements NodeVisitor
 {
 
     /** @var File */
-    private $currentFile = null;
+    private $currentFile;
     /** @var Project */
-    private $project = null;
+    private $project;
 
     public function __construct()
     {

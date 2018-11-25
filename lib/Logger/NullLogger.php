@@ -8,7 +8,7 @@ namespace Mfn\PHP\Analyzer\Logger;
  */
 final class NullLogger extends ProjectLogger
 {
-    private static $instance = null;
+    private static $instance;
 
     private function __construct()
     {

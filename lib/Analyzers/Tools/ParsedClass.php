@@ -19,21 +19,21 @@ class ParsedClass extends ParsedObject implements Class_
 {
 
     /** @var PhpParserClass */
-    protected $node = null;
+    protected $node;
     /**
      * Full qualified parent name
      * @var NULL|string
      */
-    private $fqParent = null;
+    private $fqParent;
     /** @var NULL|ParsedClass */
-    private $parent = null;
+    private $parent;
     /**
      * The key is the fqn
      * @var ParsedInterface[]
      */
     private $implements = [];
     /** @var ParsedMethod[] */
-    private $methods = null;
+    private $methods;
 
     /**
      * @param string $namespace

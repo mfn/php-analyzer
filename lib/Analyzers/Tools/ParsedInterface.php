@@ -18,14 +18,14 @@ class ParsedInterface extends ParsedObject implements Interface_
 {
 
     /** @var PhpParserInterface */
-    protected $node = null;
+    protected $node;
     /**
      * The key is the fqn
      * @var ParsedInterface[]
      */
     private $extends = [];
     /** @var ParsedMethod[] */
-    private $methods = null;
+    private $methods;
 
     /**
      * @param string $namespace

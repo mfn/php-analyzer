@@ -7,7 +7,7 @@ abstract class ReflectedObject implements GenericObject, Reflected
     /** @var \ReflectionClass */
     protected $reflectionClass;
     /** @var ReflectedMethod[] */
-    protected $methods = null;
+    protected $methods;
 
     public function __construct(\ReflectionClass $class)
     {

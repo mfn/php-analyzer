@@ -32,15 +32,15 @@ class QueryConditionVariables extends Analyzer implements NodeVisitor
 {
 
     /** @var File */
-    private $currentFile = null;
+    private $currentFile;
     /** @var Project */
-    private $project = null;
+    private $project;
     /** @var NodeTraverser */
-    private $subNodeTraverser = null;
+    private $subNodeTraverser;
     /** @var Variables */
-    private $variablesVisitor = null;
+    private $variablesVisitor;
     /** @var Variable[] */
-    private $variables = null;
+    private $variables;
 
     public function __construct()
     {

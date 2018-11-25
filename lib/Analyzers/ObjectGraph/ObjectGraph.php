@@ -57,10 +57,10 @@ class ObjectGraph extends Analyzer implements NodeVisitor
     /** @var Use_[] */
     private $currentUseStatements = [];
     /** @var File */
-    private $currentFile = null;
+    private $currentFile;
 
     /** @var Project */
-    private $project = null;
+    private $project;
 
     public function analyze(Project $project): void
     {

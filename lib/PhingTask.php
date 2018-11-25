@@ -15,7 +15,7 @@ class PhingTask extends \Task
     /** @var bool */
     private $haltonwarning = false;
     /** @var \PhingFile */
-    private $logfile = null;
+    private $logfile;
     /**
      * The format of the logfile. Supported formats:
      * - 'plain' text (default)
@@ -24,7 +24,7 @@ class PhingTask extends \Task
      */
     private $logFormat = 'plain';
     /** @var \PhingFile */
-    private $configFile = null;
+    private $configFile;
 
     /**
      * @return boolean
