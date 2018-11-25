@@ -67,38 +67,6 @@ The file is a plain PHP file simply returning an array of analyzers you want to
 run. See [res/defaultAnalyzerConfiguration.php](res/defaultAnalyzerConfiguration.php)
 for an example.
 
-## Phing integration
-
-A task for Phing is also included; this is currently only tested with composer
-which takes care of autoloading the namespace classes properly into Phing.
-
-The phing tasks supports the fileset subnode.
-
-```XML
-<taskdef name="mfn-php-analyzer" classname="Mfn\PHP\Analyzer\PhingTask"/>
-<target name="analyze">
-  <mfn-php-analyzer
-    haltonerror="true"
-    haltonerror="false"
-    >
-    <fileset dir="lib" />
-  </mfn-php-analyzer>
-</target>
-```
-
-The following attributes are supported:
-- `haltonerror` : Halt build on error; true/false ; defaults to true
-- `haltonwarning` : Halt build on warning; true/false ; defaults to false
-- `configfile`: a plain PHP file which is expected to return an array of
-`Analyzer`; see `res/defaultAnalyzerConfiguration.php` for an example.
-- `logfile` : write analysis result to this file<br>
-If `logfile` is used, analyzer warnings and errors are not sent to Phing (but
-builds are still aborted on errors, i.e. the first *error* is reported)
-- `logFormat` : format of the logfile. Supported options
-  - `plain` : a plain text format
-  - `json` : JSON format, an array of all reports
-  - `json-pretty` : as above, but using pretty printer
-
 # TODOs / Ideas
 - the analyzers depending on the graph have no logic whether they've visited a
   node already or not; thus visiting the same nodes/methods multiple times
