@@ -7,7 +7,7 @@ php:
 before_script:
   - composer install
 
-script: vendor/bin/phing
+script: vendor/bin/phpunit
 
 notifications:
   email:
