@@ -3,7 +3,6 @@ namespace Mfn\PHP\Analyzer;
 
 use Mfn\PHP\Analyzer\Listener\Phing as PhingListener;
 use Mfn\PHP\Analyzer\Logger\Phing;
-use PhpParser\Lexer;
 
 class PhingTask extends \Task
 {

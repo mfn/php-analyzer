@@ -4,7 +4,6 @@ namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 use Mfn\PHP\Analyzer\File;
 use PhpParser\Node;
 use PhpParser\Node\Name;
-use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\Stmt\UseUse;
 

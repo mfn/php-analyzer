@@ -2,9 +2,6 @@
 namespace Mfn\PHP\Analyzer\Analyzers\Tools;
 
 use Mfn\PHP\Analyzer\File;
-use PhpParser\Node;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_ as PhpParserClass;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Use_;
