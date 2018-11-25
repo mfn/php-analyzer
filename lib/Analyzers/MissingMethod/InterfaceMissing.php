@@ -126,7 +126,7 @@ class InterfaceMissing extends Analyzer
                             $interfaceMethod->getInterface()
                         )
                         ||
-                        self::classHasParentMethod($object->getParent(), $methodName)
+                        $this->classHasParentMethod($object->getParent(), $methodName)
                     ) {
                         continue;
                     }
@@ -179,7 +179,7 @@ class InterfaceMissing extends Analyzer
                 return true;
             }
         }
-        return self::classHasParentMethod($class->getParent(), $methodName);
+        return $this->classHasParentMethod($class->getParent(), $methodName);
     }
 
     public function getName(): string

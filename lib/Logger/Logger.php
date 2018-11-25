@@ -79,7 +79,7 @@ abstract class Logger implements LoggerInterface
      */
     public function log($level, $message, array $context = [])
     {
-        $level = self::ensureLevelIsvalidInt($level);
+        $level = $this->ensureLevelIsvalidInt($level);
         if ($level >= $this->reportingLevel) {
             $this->realLog($level, $message, $context);
         }

@@ -17,7 +17,7 @@ class Phing extends ProjectLogger
 
     public function log($level, $message, array $context = [])
     {
-        $level = self::ensureLevelIsvalidInt($level);
+        $level = $this->ensureLevelIsvalidInt($level);
         # we let phing make the decisions which levels to log and which not
         $this->realLog($level, $message);
     }
